@@ -6,11 +6,11 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/moxena-congreso-v2.html"
+      "destination": "/moxena-congreso-v2"
     },
     {
       "source": "/admin",
-      "destination": "/admin-moxena.html"
+      "destination": "/admin-moxena"
     }
   ]
 }
