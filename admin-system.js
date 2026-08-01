@@ -6,6 +6,7 @@
   const table = cfg.registrationsTable || 'congreso_registrations';
   const remoteEnabled = Boolean(cfg.supabaseUrl && cfg.supabasePublishableKey);
   const SESSION_KEY = 'moxena_admin_session_v1';
+  let authFlowActive = false;
 
   function getSession() {
     try { return JSON.parse(localStorage.getItem(SESSION_KEY) || 'null'); }
@@ -29,6 +30,71 @@
     </form>`;
     document.body.appendChild(overlay);
     overlay.querySelector('form').addEventListener('submit', login);
+  }
+
+  function showPasswordSetup(accessToken, refreshToken) {
+    authFlowActive = true;
+    document.getElementById('admin-login-overlay')?.remove();
+    const overlay = document.createElement('div');
+    overlay.id = 'admin-password-overlay';
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:1100;background:rgba(8,24,19,.96);display:grid;place-items:center;padding:20px';
+    overlay.innerHTML = `<form id="admin-password-form" style="width:min(420px,100%);background:#fff;border:1px solid #EFE2BC;border-radius:20px;padding:30px;box-shadow:0 24px 70px rgba(0,0,0,.35)">
+      <h2 style="font-family:var(--serif);color:var(--jungle-dk);margin:0 0 8px">Crear contraseña</h2>
+      <p style="color:#6b5b3e;font-size:.86rem;margin:0 0 22px">Define la contraseña que usarás para ingresar al panel administrativo.</p>
+      <label style="display:block;font-size:.78rem;font-weight:800;margin-bottom:6px">Nueva contraseña</label>
+      <input name="password" type="password" required minlength="8" autocomplete="new-password" style="width:100%;padding:12px 14px;border:1px solid #E4D6AE;border-radius:10px;margin-bottom:14px;font:inherit">
+      <label style="display:block;font-size:.78rem;font-weight:800;margin-bottom:6px">Confirmar contraseña</label>
+      <input name="confirmation" type="password" required minlength="8" autocomplete="new-password" style="width:100%;padding:12px 14px;border:1px solid #E4D6AE;border-radius:10px;margin-bottom:18px;font:inherit">
+      <button class="btn btn-gold" type="submit" style="width:100%;justify-content:center">Guardar contraseña</button>
+      <p id="admin-password-error" role="alert" style="display:none;color:var(--brick);font-size:.8rem;margin:14px 0 0"></p>
+    </form>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const errorBox = form.querySelector('#admin-password-error');
+      const button = form.querySelector('button');
+      errorBox.style.display = 'none';
+      if (form.password.value !== form.confirmation.value) {
+        errorBox.textContent = 'Las contraseñas no coinciden.';
+        errorBox.style.display = 'block';
+        return;
+      }
+      button.disabled = true;
+      try {
+        const response = await fetch(`${cfg.supabaseUrl}/auth/v1/user`, {
+          method: 'PUT',
+          headers: {
+            apikey: cfg.supabasePublishableKey,
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ password: form.password.value })
+        });
+        const payload = await response.json();
+        if (!response.ok) throw new Error(payload.message || payload.msg || 'No se pudo guardar la contraseña.');
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ access_token: accessToken, refresh_token: refreshToken, user: payload }));
+        history.replaceState({}, document.title, location.pathname);
+        overlay.remove();
+        authFlowActive = false;
+        toast('Contraseña guardada correctamente');
+        await refresh();
+      } catch (error) {
+        errorBox.textContent = error.message;
+        errorBox.style.display = 'block';
+      } finally { button.disabled = false; }
+    });
+  }
+
+  function handleAuthCallback() {
+    const params = new URLSearchParams(location.hash.replace(/^#/, ''));
+    const accessToken = params.get('access_token');
+    const type = params.get('type');
+    if (accessToken && (type === 'recovery' || type === 'invite')) {
+      showPasswordSetup(accessToken, params.get('refresh_token'));
+      return true;
+    }
+    return false;
   }
 
   async function login(event) {
@@ -120,7 +186,9 @@
   }
 
   async function refresh() {
+    if (authFlowActive) return;
     try {
+      document.querySelectorAll('.badge-demo').forEach((el) => { el.textContent = remoteEnabled ? 'Sincronizado' : 'Modo local'; });
       if (remoteEnabled) {
         if (!getSession()?.access_token) { showLogin(); return; }
         const rows = await request(`${table}?select=*&order=registered_at.desc`);
@@ -128,7 +196,6 @@
       } else {
         registrations = readLocal();
       }
-      document.querySelectorAll('.badge-demo').forEach((el) => { el.textContent = remoteEnabled ? 'Sincronizado' : 'Modo local'; });
       renderTable();
       renderStats();
     } catch (error) {
@@ -184,5 +251,5 @@
     Object.entries(settings).forEach(([id, value]) => { const input = document.getElementById(id); if (input) input.value = value; });
   } catch (_) { /* keep defaults */ }
   setInterval(refresh, remoteEnabled ? 30000 : 5000);
-  refresh();
+  if (!handleAuthCallback()) refresh();
 })();
