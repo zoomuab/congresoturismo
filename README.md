@@ -9,10 +9,18 @@ Landing pública y panel de administración del IX Congreso Nacional Moxeña.
 
 ## Sincronización
 
-El sistema funciona localmente con almacenamiento del navegador. Para sincronización real entre dispositivos:
-
 1. Ejecuta `supabase/schema.sql` en un proyecto Supabase exclusivo para el congreso.
-2. Copia la URL del proyecto y la clave publicable en `moxena-config.js`.
+2. Configura `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` como variables de entorno en Vercel.
 3. Crea el usuario administrador en Supabase Auth y asigna `app_metadata.role = "admin"`.
 
-No uses una clave `service_role` en estos archivos públicos.
+El comando `npm run build` genera la configuración pública dentro de `dist/`. La
+clave publicable puede usarse en el navegador porque las tablas tienen RLS; no
+guardes una clave secreta o `service_role` en GitHub ni en el frontend.
+
+## Vercel
+
+- Framework Preset: `Other`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Landing: `/`
+- Administración: `/admin`

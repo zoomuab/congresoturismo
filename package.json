@@ -1,0 +1,8 @@
+{
+  "name": "congresoturismo",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate-site.mjs"
+  }
+}
+
