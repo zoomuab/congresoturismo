@@ -6,7 +6,7 @@
   const table = cfg.registrationsTable || 'congreso_registrations';
   const remoteEnabled = Boolean(cfg.supabaseUrl && cfg.supabasePublishableKey);
   // Solo las columnas que usa el panel: evita descargar datos innecesarios (menos egress).
-  const SELECT_COLUMNS = 'id,code,full_name,email,phone,institution,category,amount,pricing_type,payment_status,registered_at';
+  const SELECT_COLUMNS = 'id,code,full_name,email,phone,institution,identity_document,category,amount,pricing_type,payment_status,registered_at,certificate_issued,certificate_code,certificate_issued_at,certificate_hours';
   // Intervalo de auto-refresco. Más espaciado en remoto para no acumular egress con la pestaña abierta.
   const REFRESH_MS = remoteEnabled ? 120000 : 5000;
   const SESSION_KEY = 'moxena_admin_session_v1';
@@ -132,11 +132,16 @@
     email: row.email ?? '',
     phone: row.phone ?? '',
     institution: row.institution ?? '',
+    carnet: row.identity_document ?? row.carnet ?? '',
     category: row.category ?? 'Externo',
     amount: Number(row.amount) || 0,
     pricingType: row.pricing_type ?? row.pricingType ?? 'vigente',
     registeredAt: row.registered_at ?? row.registeredAt ?? new Date().toISOString(),
-    paymentStatus: row.payment_status ?? row.paymentStatus ?? 'pendiente'
+    paymentStatus: row.payment_status ?? row.paymentStatus ?? 'pendiente',
+    certificateIssued: row.certificate_issued ?? row.certificateIssued ?? false,
+    certificateCode: row.certificate_code ?? row.certificateCode ?? null,
+    certificateIssuedAt: row.certificate_issued_at ?? row.certificateIssuedAt ?? null,
+    certificateHours: row.certificate_hours ?? row.certificateHours ?? 24
   });
 
   function readLocal() {
@@ -219,9 +224,20 @@
       if (!remoteEnabled) return;
       const record = registrations[Number(button.dataset.idx)];
       try {
-        if (button.dataset.action === 'delete') {
+        const action = button.dataset.action;
+        if (action === 'delete') {
           const code = button.closest('tr')?.querySelector('.code-cell')?.textContent.trim();
           if (code) await request(`${table}?code=eq.${encodeURIComponent(code)}`, { method: 'DELETE', headers: { Prefer: 'return=minimal' } });
+        } else if (record && (action === 'cert-emit' || action === 'cert-revoke')) {
+          await request(`${table}?code=eq.${encodeURIComponent(record.code)}`, {
+            method: 'PATCH',
+            headers: { Prefer: 'return=minimal' },
+            body: JSON.stringify({
+              certificate_issued: record.certificateIssued,
+              certificate_code: record.certificateCode,
+              certificate_hours: record.certificateHours
+            })
+          });
         } else if (record) {
           await request(`${table}?code=eq.${encodeURIComponent(record.code)}`, {
             method: 'PATCH',
