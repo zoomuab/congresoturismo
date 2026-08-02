@@ -31,7 +31,7 @@ const clientConfig = `window.MOXENA_CONFIG = Object.freeze(${JSON.stringify(
     supabaseUrl,
     supabasePublishableKey,
     registrationsTable: 'congreso_registrations',
-    settingsTable: 'congreso_settings'
+    settingsTable: 'congreso_site_content'
   },
   null,
   2
