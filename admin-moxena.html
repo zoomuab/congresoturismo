@@ -117,9 +117,17 @@
   .tag.cancelado{ background:#eee; color:#888; }
   .cat-pill{ font-size:.76rem; font-weight:700; color:var(--jungle-dk); }
   .row-actions{ display:flex; gap:6px; }
-  .row-actions button{ background:none; border:1px solid #E4D6AE; border-radius:8px; padding:6px 8px; color:var(--jungle-dk); }
+  .row-actions button{ background:none; border:1px solid #E4D6AE; border-radius:8px; padding:6px 8px; color:var(--jungle-dk); cursor:pointer; }
   .row-actions button:hover{ background:var(--cream-2); }
   .row-actions svg{ width:14px; height:14px; }
+  .cert-cell{ white-space:nowrap; }
+  .cert-emit{ background:var(--gold); color:var(--jungle-dk); border:none; border-radius:8px; padding:6px 13px; font-weight:800; font-size:.74rem; cursor:pointer; font-family:inherit; }
+  .cert-emit:hover{ background:#b8891c; }
+  .cert-issued{ display:flex; align-items:center; gap:8px; }
+  .cert-link{ font-weight:800; color:var(--ok); font-size:.76rem; text-decoration:none; }
+  .cert-link:hover{ text-decoration:underline; }
+  .cert-revoke{ background:none; border:1px solid #E4D6AE; border-radius:8px; padding:4px 9px; font-size:.68rem; color:var(--brick); cursor:pointer; font-family:inherit; }
+  .cert-revoke:hover{ background:#FBE8DE; }
   .empty{ text-align:center; padding:40px 20px; color:#8a7a54; font-size:.9rem; }
 
   .grid-2{ display:grid; grid-template-columns:1.4fr 1fr; gap:22px; }
@@ -294,7 +302,7 @@
         <div class="panel-body" style="overflow-x:auto;">
           <table>
             <thead>
-              <tr><th>Código</th><th>Nombre</th><th>Categoría</th><th>Monto</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr>
+              <tr><th>Código</th><th>Nombre</th><th>Categoría</th><th>Monto</th><th>Estado</th><th>Certificado</th><th>Fecha</th><th>Acciones</th></tr>
             </thead>
             <tbody id="reg-tbody"></tbody>
           </table>
@@ -491,6 +499,22 @@
     return true;
   }
 
+  function certCode(){
+    return 'MOX-CERT-2026-' + Math.floor(1000 + Math.random()*9000);
+  }
+  function certCell(r, idx){
+    if(r.paymentStatus !== 'pagado'){
+      return '<span style="font-size:.74rem;color:#a99a75;">Requiere pago</span>';
+    }
+    if(r.certificateIssued && r.certificateCode){
+      return `<div class="cert-issued">
+        <a href="/certificado?codigo=${encodeURIComponent(r.certificateCode)}" target="_blank" rel="noopener" class="cert-link">${r.certificateCode}</a>
+        <button class="cert-revoke" data-action="cert-revoke" data-idx="${idx}" title="Anular certificado">Anular</button>
+      </div>`;
+    }
+    return `<button class="cert-emit" data-action="cert-emit" data-idx="${idx}">Emitir</button>`;
+  }
+
   function renderTable(){
     const tbody = document.getElementById('reg-tbody');
     tbody.innerHTML = '';
@@ -506,6 +530,7 @@
         <td class="cat-pill">${r.category}</td>
         <td>${r.amount} Bs</td>
         <td><span class="tag ${r.paymentStatus}">${r.paymentStatus}</span></td>
+        <td class="cert-cell">${certCell(r, idx)}</td>
         <td>${fmtDate(r.registeredAt)}</td>
         <td class="row-actions">
           <button data-action="pagado" data-idx="${idx}" title="Marcar pagado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></button>
@@ -520,8 +545,20 @@
     const btn = e.target.closest('button'); if(!btn) return;
     const idx = parseInt(btn.dataset.idx,10);
     const action = btn.dataset.action;
+    const rec = registrations[idx];
     if(action==='delete'){ registrations.splice(idx,1); toast('Registro eliminado'); }
-    else { registrations[idx].paymentStatus = action; toast('Estado actualizado a ' + action); }
+    else if(action==='cert-emit'){
+      if(!rec || rec.paymentStatus!=='pagado'){ toast('Solo se emiten certificados a inscritos pagados'); return; }
+      rec.certificateIssued = true;
+      rec.certificateCode = rec.certificateCode || certCode();
+      rec.certificateIssuedAt = new Date().toISOString();
+      rec.certificateHours = rec.certificateHours || 24;
+      toast('Certificado emitido: ' + rec.certificateCode);
+    }
+    else if(action==='cert-revoke'){
+      if(rec){ rec.certificateIssued = false; rec.certificateCode = null; rec.certificateIssuedAt = null; toast('Certificado anulado'); }
+    }
+    else { rec.paymentStatus = action; toast('Estado actualizado a ' + action); }
     renderTable(); renderStats();
   });
 
