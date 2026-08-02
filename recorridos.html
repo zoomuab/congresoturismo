@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa y Recorridos — IX Congreso Nacional de Profesionales en Turismo · Moxeña 2026</title>
+<meta name="description" content="Programa de los tres días y recorridos turísticos del IX Congreso Nacional de Profesionales en Turismo. Trinidad, Loreto, Camiaco y San Ignacio de Moxos — 3, 4 y 5 de septiembre de 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2E9D3; --cream-2:#EADFBF; --ink:#221708;
+    --jungle:#163A2E; --jungle-dk:#0E2620; --jungle-dker:#081813;
+    --brick:#A2432A; --brick-dk:#7C2E1B;
+    --gold:#C9971F; --gold-lt:#E8C878; --gold-pale:#F4E4B8; --macaw:#1C5D8C;
+    --shadow:0 20px 50px rgba(14,38,32,.25); --shadow-lg:0 30px 70px rgba(14,38,32,.35);
+    --serif:"Fraunces",serif; --sans:"Manrope",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--cream); color:var(--ink); font-family:var(--sans);
+    line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 28px;}
+  h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600; color:var(--jungle-dk);}
+  .eyebrow{font-family:var(--sans); font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+    font-size:.72rem; color:var(--brick);}
+  ::selection{background:var(--gold-lt); color:var(--jungle-dk);}
+  :focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+    .reveal{opacity:1 !important; transform:none !important;}
+  }
+
+  /* ---------- nav ---------- */
+  .nav{ position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(14,38,32,.95); backdrop-filter:blur(6px); box-shadow:0 8px 24px rgba(0,0,0,.18); padding:12px 0;}
+  .nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .brand{display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none;}
+  .brand-mark{width:38px; height:38px; border-radius:50%; flex:none;
+    background:radial-gradient(circle at 32% 30%, var(--gold-lt), var(--gold));
+    display:flex; align-items:center; justify-content:center; color:var(--jungle-dker);
+    font-family:var(--serif); font-weight:700; font-size:1.05rem;}
+  .brand span{font-family:var(--serif); font-weight:600; font-size:1.05rem; letter-spacing:.02em;}
+  .navlinks{display:flex; align-items:center; gap:28px;}
+  .navlinks a{color:#F2E9D3; text-decoration:none; font-size:.86rem; font-weight:600;
+    letter-spacing:.03em; opacity:.85; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1;}
+  .navlinks a.active{opacity:1; color:var(--gold-lt);}
+  .nav-cta{background:var(--gold); color:var(--jungle-dk) !important; padding:9px 18px; border-radius:100px;
+    font-weight:800 !important; opacity:1 !important; font-size:.8rem !important;}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .burger span{width:24px; height:2px; background:#fff; display:block;}
+  @media (max-width:860px){
+    .navlinks{position:fixed; top:0; right:0; height:100vh; width:min(320px,82vw); background:var(--jungle-dk);
+      flex-direction:column; justify-content:center; align-items:flex-start; gap:26px; padding:40px;
+      transform:translateX(100%); transition:transform .4s ease; z-index:120;}
+    .navlinks.open{transform:translateX(0);}
+    .navlinks a{font-size:1.05rem;}
+    .burger{display:flex; z-index:130;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ background:linear-gradient(160deg, var(--jungle-dker), var(--jungle)); color:#fff;
+    padding:clamp(120px,18vh,170px) 0 clamp(56px,9vh,90px); position:relative; overflow:hidden;}
+  .hero::after{content:""; position:absolute; right:-8%; top:-30%; width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(circle, rgba(232,200,120,.20) 0%, rgba(232,200,120,0) 70%); pointer-events:none;}
+  .hero .wrap{position:relative; z-index:2; max-width:840px;}
+  .hero .eyebrow{color:var(--gold-lt);}
+  .hero h1{font-size:clamp(2.6rem,6.6vw,4.6rem); line-height:1; color:#fff; margin:14px 0 18px; letter-spacing:-.01em;}
+  .hero-sub{font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.1rem,2.6vw,1.6rem);
+    color:var(--gold-pale); line-height:1.4; max-width:720px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:12px; margin-top:30px;}
+  .pill{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.28); padding:10px 18px; border-radius:100px; font-size:.82rem; font-weight:600;}
+
+  /* ---------- sections ---------- */
+  .sec{padding:clamp(60px,9vh,100px) 0;}
+  .sec-head{max-width:720px; margin:0 auto 48px; text-align:center;}
+  .sec-head h2{font-size:clamp(2rem,4vw,2.9rem); margin-top:10px;}
+  .sec-head p{margin-top:14px; color:#4A3B26; font-size:1.02rem;}
+
+  /* incluye */
+  .incluye{background:var(--cream);}
+  .inc-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:900px){ .inc-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .inc-grid{grid-template-columns:1fr;} }
+  .inc-card{background:#fff; border:1px solid #E4D6AE; border-radius:18px; padding:26px 24px;
+    box-shadow:0 10px 26px rgba(34,23,8,.05);}
+  .inc-ico{width:46px; height:46px; border-radius:12px; background:var(--gold-pale); color:var(--brick-dk);
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;}
+  .inc-ico svg{width:24px; height:24px;}
+  .inc-card h3{font-size:1.16rem; margin-bottom:8px;}
+  .inc-card p{margin:0; font-size:.92rem; color:#5a4a30; line-height:1.6;}
+
+  /* ---------- agenda / tabs ---------- */
+  .agenda{background:var(--jungle-dk); color:var(--cream);}
+  .agenda .sec-head h2{color:#fff;}
+  .agenda .sec-head p{color:#C9BFA0;}
+  .agenda .eyebrow{color:var(--gold-lt);}
+  .tabs{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:940px; margin:0 auto 44px;}
+  .tab{background:rgba(255,255,255,.06); border:1px solid rgba(232,200,120,.28); color:var(--cream);
+    padding:12px 20px; border-radius:100px; font-family:var(--sans); font-weight:700; font-size:.86rem;
+    cursor:pointer; transition:background .25s, color .25s, border-color .25s; line-height:1.2;}
+  .tab small{display:block; font-weight:600; font-size:.72rem; opacity:.7; letter-spacing:.02em;}
+  .tab:hover{background:rgba(255,255,255,.12);}
+  .tab.active{background:var(--gold); color:var(--jungle-dk); border-color:var(--gold);}
+  .tab.active small{opacity:.85;}
+
+  .day{max-width:940px; margin:0 auto;}
+  .js .day{display:none;}
+  .js .day.active{display:block;}
+  .day-head{text-align:center; margin-bottom:34px;}
+  .day-head h3{color:#fff; font-size:clamp(1.5rem,3.4vw,2.1rem); font-style:italic; font-weight:500;}
+  .day-head span{display:inline-block; margin-top:8px; font-size:.8rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--gold-lt); background:rgba(232,200,120,.12); border:1px solid rgba(232,200,120,.3);
+    padding:6px 16px; border-radius:100px;}
+
+  .timeline{position:relative; padding-left:0;}
+  .tl-item{position:relative; display:grid; grid-template-columns:112px 1fr; gap:22px; padding-bottom:22px;}
+  .tl-item::before{content:""; position:absolute; left:126px; top:34px; bottom:-4px; width:2px;
+    background:linear-gradient(var(--gold), rgba(232,200,120,.15));}
+  .tl-item:last-child::before{display:none;}
+  .tl-time{text-align:right; padding-top:4px;}
+  .tl-time b{font-family:var(--serif); font-weight:700; color:var(--gold-lt); font-size:1.06rem; line-height:1.2; display:block;}
+  .tl-card{position:relative; background:rgba(255,255,255,.05); border:1px solid rgba(232,200,120,.20);
+    border-radius:16px; padding:18px 22px;}
+  .tl-card::before{content:""; position:absolute; left:-18px; top:22px; width:12px; height:12px; border-radius:50%;
+    background:var(--gold-lt); box-shadow:0 0 0 4px rgba(232,200,120,.18);}
+  .tl-card h4{font-family:var(--serif); font-weight:600; color:#fff; font-size:1.08rem; margin:0 0 6px; line-height:1.35;}
+  .tl-speaker{font-size:.9rem; color:var(--gold-pale); margin:0 0 8px; line-height:1.5;}
+  .tl-speaker b{color:#fff; font-weight:700;}
+  .tl-place{display:flex; align-items:flex-start; gap:7px; font-size:.85rem; color:#C9D4C9; margin:0;}
+  .tl-place svg{width:15px; height:15px; flex:none; margin-top:2px; color:var(--gold-lt);}
+  .tl-sub{margin:10px 0 0; padding-left:18px; font-size:.85rem; color:#C9D4C9; line-height:1.55;}
+  .tl-sub li{margin-bottom:3px;}
+  .tag-food{display:inline-block; margin-top:10px; font-size:.7rem; letter-spacing:.08em; text-transform:uppercase;
+    font-weight:700; color:var(--jungle-dk); background:var(--gold-pale); border-radius:100px; padding:4px 12px;}
+  @media (max-width:640px){
+    .tl-item{grid-template-columns:1fr; gap:8px;}
+    .tl-item::before{display:none;}
+    .tl-time{text-align:left; padding-top:0;}
+    .tl-time b{font-size:1rem;}
+    .tl-card::before{display:none;}
+  }
+
+  /* ---------- distancias ---------- */
+  .distancias{background:var(--cream);}
+  .dist-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:960px; margin:0 auto;}
+  @media (max-width:800px){ .dist-grid{grid-template-columns:1fr;} }
+  .dist-card{background:#fff; border:1px solid #E4D6AE; border-radius:20px; padding:26px 24px; text-align:center;
+    box-shadow:0 10px 26px rgba(34,23,8,.05);}
+  .dist-route{display:flex; align-items:center; justify-content:center; gap:10px; font-weight:700; font-size:.9rem; color:var(--jungle-dk); flex-wrap:wrap;}
+  .dist-route .arrow{color:var(--brick); font-size:1.1rem;}
+  .dist-track{height:3px; border-radius:3px; margin:22px 6px 18px;
+    background:repeating-linear-gradient(90deg, rgba(201,151,31,.5) 0 8px, transparent 8px 16px); position:relative;}
+  .dist-track .dot{position:absolute; top:50%; width:11px; height:11px; border-radius:50%; background:var(--gold);
+    transform:translate(-50%,-50%);}
+  .dist-track .dot.s{left:0;} .dist-track .dot.e{left:100%;}
+  .dist-km b{font-family:var(--serif); font-size:2.2rem; color:var(--brick);}
+  .dist-km span{display:block; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase; color:#6b5b3e; margin-top:2px;}
+
+  /* ---------- recomendaciones ---------- */
+  .recos{background:var(--cream-2);}
+  .reco-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; max-width:1000px; margin:0 auto;}
+  @media (max-width:820px){ .reco-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:420px){ .reco-grid{grid-template-columns:1fr;} }
+  .reco{background:#fff; border:1px solid #E4D6AE; border-radius:16px; padding:22px 18px; text-align:center;
+    box-shadow:0 8px 20px rgba(34,23,8,.05);}
+  .reco .em{font-size:1.8rem; display:block; margin-bottom:10px;}
+  .reco span{font-weight:600; font-size:.92rem; color:#3d3117;}
+
+  /* ---------- cta ---------- */
+  .cta{background:linear-gradient(160deg, var(--brick), var(--brick-dk)); color:#fff; text-align:center;}
+  .cta h2{color:#fff; font-size:clamp(2rem,4.5vw,3rem);}
+  .cta p{max-width:560px; margin:16px auto 30px; color:#F6E5D8; font-size:1.05rem;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:16px 34px; border-radius:100px;
+    font-weight:800; font-size:.95rem; text-decoration:none; border:2px solid transparent; cursor:pointer;
+    transition:transform .25s ease, background .25s ease; white-space:nowrap;}
+  .btn:hover{transform:translateY(-3px);}
+  .btn-gold{background:var(--gold); color:var(--jungle-dk); box-shadow:0 14px 30px rgba(201,151,31,.35);}
+  .btn-gold:hover{background:var(--gold-lt);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--jungle-dk); color:var(--cream-2); padding:56px 0 28px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:40px; align-items:start;}
+  @media (max-width:760px){ .foot-grid{grid-template-columns:1fr; gap:28px;} }
+  .foot-brand{display:flex; align-items:center; gap:12px;}
+  .foot-brand span{font-family:var(--serif); font-size:1.15rem; color:#fff;}
+  footer p{font-size:.9rem; color:#9EAD9F; margin-top:14px; max-width:420px; line-height:1.65;}
+  footer h4{font-family:var(--sans); font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold-lt); margin:0 0 14px;}
+  footer ul{list-style:none; margin:0; padding:0; font-size:.92rem;}
+  footer li{margin-bottom:10px; color:#C9D4C9;}
+  footer a{text-decoration:none;}
+  .foot-bottom{margin-top:44px; padding-top:22px; border-top:1px solid rgba(255,255,255,.1);
+    font-size:.82rem; color:#8FA090; text-align:center; line-height:1.7;}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.show{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-mark">M</span>
+      <span>Moxeña 2026</span>
+    </a>
+    <button class="burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="navlinks" id="navlinks">
+      <a href="/">Inicio</a>
+      <a href="/presentacion">Presentación</a>
+      <a href="/recorridos" class="active" aria-current="page">Recorridos</a>
+      <a href="/#inscripcion" class="nav-cta">Inscripción</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">IX Congreso Nacional de Profesionales en Turismo</p>
+    <h1>Programa y Recorridos</h1>
+    <p class="hero-sub">Tres días de congreso y experiencia viva en las Primeras Misiones Jesuíticas de Moxos.</p>
+    <div class="hero-meta">
+      <span class="pill">Trinidad · Loreto · Camiaco · San Ignacio de Moxos</span>
+      <span class="pill">3, 4 y 5 de septiembre de 2026</span>
+    </div>
+  </div>
+</header>
+
+<section class="sec incluye">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Modalidad presencial</p>
+      <h2>Qué incluye tu inscripción</h2>
+      <p>Incluye material digital y certificado de participación con horas académicas.</p>
+    </div>
+    <div class="inc-grid">
+      <div class="inc-card reveal">
+        <div class="inc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <h3>Acceso completo</h3>
+        <p>Conferencias magistrales, conferencia internacional, foros, charlas, asamblea, mesas de trabajo, bendición y actos conmemorativos.</p>
+      </div>
+      <div class="inc-card reveal">
+        <div class="inc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></svg></div>
+        <h3>Eventos especiales</h3>
+        <p>Acto inaugural y de clausura con autoridades locales, departamentales y nacionales. Incluye sesiones fotográficas.</p>
+      </div>
+      <div class="inc-card reveal">
+        <div class="inc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <h3>Recorridos turísticos</h3>
+        <p>Visitas a los principales atractivos de Santísima Trinidad, Loreto y San Ignacio de Moxos, con guías especializados e ingresos gratuitos a los museos.</p>
+      </div>
+      <div class="inc-card reveal">
+        <div class="inc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M12 2v9"/><path d="M5 11v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8"/><path d="M8 2a4 4 0 0 0 8 0"/></svg></div>
+        <h3>Alimentación</h3>
+        <p>Refrigerios en las conferencias, desayuno (2º día), almuerzos (1º y 3º día) y cenas (1º y 3º día). Menú típico regional.</p>
+      </div>
+      <div class="inc-card reveal">
+        <div class="inc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><circle cx="16" cy="18" r="2"/></svg></div>
+        <h3>Transporte</h3>
+        <p>Traslado a Loreto, Camiaco y San Ignacio de Moxos durante los días de recorrido.</p>
+      </div>
+      <div class="inc-card reveal">
+        <div class="inc-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 16v-2a4 4 0 0 0-8 0v2"/><rect x="3" y="16" width="18" height="5" rx="1"/><path d="M12 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg></div>
+        <h3>Kit de participante</h3>
+        <p>Polera, toma todo, bolsoncito, folder, bolígrafo y credencial, con diseño exclusivo del evento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec agenda">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Agenda día a día</p>
+      <h2>Programa del congreso</h2>
+      <p>Selecciona un día para ver su agenda detallada. Horarios, actividades, disertantes y lugares.</p>
+    </div>
+
+    <div class="tabs" id="tabs" role="tablist" aria-label="Días del programa">
+      <button class="tab active" data-day="d1" role="tab" aria-selected="true">Día 1 <small>Jue 3 · Trinidad</small></button>
+      <button class="tab" data-day="d2" role="tab" aria-selected="false">Día 2 <small>Vie 4 · Loreto y Camiaco</small></button>
+      <button class="tab" data-day="d3" role="tab" aria-selected="false">Día 3 <small>Sáb 5 · San Ignacio</small></button>
+      <button class="tab" data-day="d4" role="tab" aria-selected="false">Día 4 <small>Dom 6 · Retorno</small></button>
+    </div>
+
+    <!-- DÍA 1 -->
+    <div class="day active" id="d1">
+      <div class="day-head"><h3>Jueves 3 de septiembre</h3><span>Santísima Trinidad</span></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time"><b>8:00 – 8:30</b></div><div class="tl-card"><h4>Acreditación y entrega de materiales</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Facultad de Humanidades (Campus Universitario UABJB)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>8:30 – 9:30</b></div><div class="tl-card"><h4>Conferencia Magistral 1: "Aviturismo / Fotografía"</h4><p class="tl-speaker"><b>Lic. Rafael Gabriel Mounzon Narvaez</b> — representante de la ONG Conservación de Loros Bolivia</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Facultad de Humanidades (Campus Universitario UABJB)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>9:30 – 10:00</b></div><div class="tl-card"><h4>Refrigerio</h4><span class="tag-food">A cargo del Congreso</span></div></div>
+        <div class="tl-item"><div class="tl-time"><b>10:00 – 10:30</b></div><div class="tl-card"><h4>Conferencia Magistral 2: "El Museo Ictícola del Beni: Patrimonio Científico, Biodiversidad y Desarrollo Turístico"</h4><p class="tl-speaker"><b>Lic. Marbely Aybara Aguilera</b></p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Facultad de Humanidades (Campus Universitario UABJB)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>10:30 – 11:00</b></div><div class="tl-card"><h4>Conferencia Magistral 3: "CIBIOMA: Investigación Científica, Conservación de la Biodiversidad y Turismo Sostenible"</h4><p class="tl-speaker"><b>Lic. Elizabeth Debbi Magne</b></p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Facultad de Humanidades (Campus Universitario UABJB)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>11:00 – 11:30</b></div><div class="tl-card"><h4>Recorrido: Museo "Ictícola"</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Museo Ictícola (Campus Universitario UABJB)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>11:30 – 12:00</b></div><div class="tl-card"><h4>Recorrido: Museo "CIBIOMA"</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Museo CIBIOMA (Campus Universitario UABJB)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>12:30</b></div><div class="tl-card"><h4>Almuerzo en el Balneario Jardín</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>A orillas de la Laguna Suárez</p><span class="tag-food">A cargo del Congreso</span></div></div>
+        <div class="tl-item"><div class="tl-time"><b>14:30 – 15:30</b></div><div class="tl-card"><h4>Conferencia Internacional 1</h4><p class="tl-speaker">Disertante por confirmar</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium del Vicerectorado de Posgrado, Av. 6 de Agosto final</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>15:30 – 16:30</b></div><div class="tl-card"><h4>Conferencia Magistral 4: "Las Misiones Jesuíticas de Moxos: Memoria, Patrimonio y Horizonte Turístico"</h4><p class="tl-speaker"><b>Jesús Guillermo Nogales Carvalho</b> — Historiador y Gestor Cultural</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium del Vicerectorado de Posgrado, Av. 6 de Agosto final</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>16:30 – 17:30</b></div><div class="tl-card"><h4>Recorrido: Casco Viejo y Plaza principal "José Ballivián"</h4><p class="tl-speaker">Se subirá a las torres de la Iglesia Catedral de la Santísima Trinidad.</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Plaza Principal "José Ballivián"</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>17:30 – 18:30</b></div><div class="tl-card"><h4>Visita al Centro Artesanal MOXOS</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Centro Artesanal MOXOS — compras de artesanías regionales</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>20:30</b></div><div class="tl-card"><h4>Ceremonia de Inauguración Oficial y Cena de bienvenida</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Club Social "18 de Noviembre"</p><span class="tag-food">A cargo del Congreso</span></div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 2 -->
+    <div class="day" id="d2">
+      <div class="day-head"><h3>Viernes 4 de septiembre</h3><span>Loreto y Camiaco</span></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time"><b>5:45</b></div><div class="tl-card"><h4>Concentración</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Plaza Principal "José Ballivián"</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>6:00</b></div><div class="tl-card"><h4>Salida al Municipio de Loreto</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Distancia 55 Km.</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>6:30</b></div><div class="tl-card"><h4>Visita al Tábano Campestre</h4><p class="tl-speaker">Observación de Parabas Barba Azul repatriadas.</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Tábano Campestre</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>7:30 – 8:30</b></div><div class="tl-card"><h4>Ambrosia y desayuno campestre</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Casa del Presidente de la Asociación de Ganaderos del Municipio de Loreto</p><span class="tag-food">A cargo del Congreso</span></div></div>
+        <div class="tl-item"><div class="tl-time"><b>8:30 – 9:00</b></div><div class="tl-card"><h4>Bendición</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Templo de Loreto — Virgen de Loreto, Patrona y Reina del Beni</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>9:00 – 9:30</b></div><div class="tl-card"><h4>Conferencia Magistral 5: "El Desafío de proteger a la Paraba Barba Azul"</h4><p class="tl-speaker"><b>Ing. Douglas Bruckner</b> — ONG Fundación Loro Parque</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Alcaldía del Municipio de Loreto</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>9:30 – 11:30</b></div><div class="tl-card"><h4>Asamblea General de CONALTUR</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Alcaldía del Municipio de Loreto</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>11:30 – 13:00</b></div><div class="tl-card"><h4>Mesas Técnicas con los actores del sector turístico del municipio de Loreto</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditórium Alcaldía del Municipio de Loreto</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>13:00</b></div><div class="tl-card"><h4>Salida a la localidad de Camiaco</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Distancia 22 Km.</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>13:30</b></div><div class="tl-card"><h4>Almuerzo: Inauguración de la Feria de la Tradición Camiaqueña</h4><p class="tl-speaker">Platos típicos preparados por los comunarios de Camiaco.</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Orillas del río Mamoré</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>14:00 – 14:30</b></div><div class="tl-card"><h4>Charla sobre la historia de la comunidad Camiaco</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Orillas del río Mamoré</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>14:30 – 16:00</b></div><div class="tl-card"><h4>Navegación y esparcimiento en las playas del río Mamoré</h4></div></div>
+        <div class="tl-item"><div class="tl-time"><b>18:00 – 20:00</b></div><div class="tl-card"><h4>Retorno a la ciudad de la Santísima Trinidad</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Distancia 77 Km.</p></div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 3 -->
+    <div class="day" id="d3">
+      <div class="day-head"><h3>Sábado 5 de septiembre</h3><span>San Ignacio de Moxos</span></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time"><b>5:45</b></div><div class="tl-card"><h4>Concentración</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Plaza Principal "José Ballivián"</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>6:00</b></div><div class="tl-card"><h4>Salida al Municipio de San Ignacio de Moxos</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Distancia 95 Km.</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>8:00</b></div><div class="tl-card"><h4>Registro en hoteles</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>San Ignacio de Moxos</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>9:00 – 11:30</b></div><div class="tl-card"><h4>Visita al Museo de Moxos "Viñupa-paika Eta Vitarevira"</h4><p class="tl-speaker">Recorrido a las salas por grupos simultáneos:</p><ul class="tl-sub"><li>Moxos Natural</li><li>Moxos Prehispánico</li><li>Archivo Misional</li><li>La vida en las Misiones</li><li>Moxos Actual</li></ul><p class="tl-speaker" style="margin-top:8px;">Se presentarán los Maestros Luthier y Tallador: <b>Miguel Uche</b> y <b>Eloy Teco</b>.</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Museo de Moxos</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>12:00</b></div><div class="tl-card"><h4>Almuerzo típico en la Estancia "La Tormenta"</h4><span class="tag-food">A cargo del Congreso</span></div></div>
+        <div class="tl-item"><div class="tl-time"><b>14:00 – 15:30</b></div><div class="tl-card"><h4>Mesas Técnicas con los actores del sector turístico de San Ignacio de Moxos</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditorio Ichasi Awásare de la Escuela de Música</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>15:30 – 16:00</b></div><div class="tl-card"><h4>Conferencia Magistral 1: "Proyecto Autogestión de la Escuela de Música: retos, desafíos y éxito"</h4><p class="tl-speaker"><b>Toño Puerta</b> — Director Administrativo del IFA San Ignacio de Moxos</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditorio Ichasi Awásare de la Escuela de Música</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>16:00 – 16:30</b></div><div class="tl-card"><h4>Conferencia Magistral 2: "Desde el corazón del TIPNIS al Archivo Misional de Moxos"</h4><p class="tl-speaker"><b>Lic. Raquel Maldonado Villafuerte</b> — Directora del Ensamble Moxos</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditorio Ichasi Awásare de la Escuela de Música</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>16:00 – 17:00</b></div><div class="tl-card"><h4>Visita a la Laguna "Isirere"</h4><p class="tl-speaker">Charla sobre el mito de su origen.</p><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Laguna "Isirere"</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>19:00 – 20:00</b></div><div class="tl-card"><h4>Gran Concierto de Gala del "Ensamble Moxos — Embajadores de la Cultura Boliviana"</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Auditorio Ichasi Awásare (Escuela de Música)</p></div></div>
+        <div class="tl-item"><div class="tl-time"><b>20:00</b></div><div class="tl-card"><h4>Cena de clausura en el Club Social "18 de Noviembre"</h4><span class="tag-food">A cargo del Congreso</span></div></div>
+      </div>
+    </div>
+
+    <!-- DÍA 4 -->
+    <div class="day" id="d4">
+      <div class="day-head"><h3>Domingo 6 de septiembre</h3><span>Retorno</span></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-time"><b>9:00</b></div><div class="tl-card"><h4>Concentración y retorno a la ciudad de la Santísima Trinidad y a sus destinos</h4><p class="tl-place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-8-4.5-8-11a8 8 0 0 1 16 0c0 6.5-8 11-8 11z"/><circle cx="12" cy="10" r="3"/></svg>Plaza principal de San Ignacio de Moxos</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec distancias">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Sobre ruedas</p>
+      <h2>Distancias y recorridos</h2>
+      <p>Traslados incluidos en la inscripción entre las tres primeras Misiones Jesuíticas de Moxos.</p>
+    </div>
+    <div class="dist-grid">
+      <div class="dist-card reveal">
+        <div class="dist-route"><span>Santísima Trinidad</span><span class="arrow">→</span><span>Loreto</span></div>
+        <div class="dist-track"><span class="dot s"></span><span class="dot e"></span></div>
+        <div class="dist-km"><b>55</b><span>Kilómetros</span></div>
+      </div>
+      <div class="dist-card reveal">
+        <div class="dist-route"><span>Loreto</span><span class="arrow">→</span><span>Camiaco</span></div>
+        <div class="dist-track"><span class="dot s"></span><span class="dot e"></span></div>
+        <div class="dist-km"><b>22</b><span>Kilómetros</span></div>
+      </div>
+      <div class="dist-card reveal">
+        <div class="dist-route"><span>Santísima Trinidad</span><span class="arrow">→</span><span>San Ignacio de Moxos</span></div>
+        <div class="dist-track"><span class="dot s"></span><span class="dot e"></span></div>
+        <div class="dist-km"><b>95</b><span>Kilómetros</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec recos">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Prepara tu maleta</p>
+      <h2>Recomendaciones para el viajero</h2>
+      <p>El clima del Beni es cálido y tropical. Ven cómodo y listo para la naturaleza.</p>
+    </div>
+    <div class="reco-grid">
+      <div class="reco reveal"><span class="em">👕</span><span>Ropa ligera para el calor</span></div>
+      <div class="reco reveal"><span class="em">👟</span><span>Zapatos cómodos</span></div>
+      <div class="reco reveal"><span class="em">🩱</span><span>Traje de baño</span></div>
+      <div class="reco reveal"><span class="em">👒</span><span>Sombrero</span></div>
+      <div class="reco reveal"><span class="em">🕶️</span><span>Gafas de sol</span></div>
+      <div class="reco reveal"><span class="em">🔭</span><span>Binoculares</span></div>
+      <div class="reco reveal"><span class="em">🧴</span><span>Bloqueador solar</span></div>
+      <div class="reco reveal"><span class="em">🦟</span><span>Repelente</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec cta">
+  <div class="wrap reveal">
+    <p class="eyebrow" style="color:var(--gold-pale)">Cupos limitados</p>
+    <h2>Asegura tu lugar</h2>
+    <p>Vive tres días de congreso, cultura y recorridos por las Primeras Misiones Jesuíticas de Moxos.</p>
+    <a class="btn btn-gold" href="/#inscripcion">Inscríbete al congreso</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="brand-mark">M</span><span>Moxeña 2026</span></div>
+        <p>IX Congreso Nacional de Profesionales en Turismo · Santísima Trinidad, Beni — 3, 4 y 5 de septiembre de 2026. Organizan el Colegio de Profesionales en Turismo del Beni (CPTB) y el Colegio Nacional de Profesionales en Turismo (CONALTUR).</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/presentacion">Presentación</a></li>
+          <li><a href="/recorridos">Recorridos</a></li>
+          <li><a href="/#inscripcion">Inscripción</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      IX Congreso Nacional de Profesionales en Turismo · Santísima Trinidad, Beni — 3, 4 y 5 de septiembre de 2026<br>
+      Organizan: CPTB y CONALTUR
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    document.body.classList.add('js');
+    var burger=document.getElementById('burger'), links=document.getElementById('navlinks');
+    burger.addEventListener('click',function(){
+      var open=links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open?'true':'false');
+    });
+    links.addEventListener('click',function(e){ if(e.target.tagName==='A'){ links.classList.remove('open'); burger.setAttribute('aria-expanded','false'); } });
+
+    var tabs=document.querySelectorAll('.tab');
+    tabs.forEach(function(t){
+      t.addEventListener('click',function(){
+        tabs.forEach(function(x){ x.classList.remove('active'); x.setAttribute('aria-selected','false'); });
+        t.classList.add('active'); t.setAttribute('aria-selected','true');
+        document.querySelectorAll('.day').forEach(function(d){ d.classList.remove('active'); });
+        document.getElementById(t.getAttribute('data-day')).classList.add('active');
+      });
+    });
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var items = document.querySelectorAll('.reveal');
+    if(reduce || !('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('show'); });
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target); } });
+      }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+      items.forEach(function(el){ io.observe(el); });
+    }
+  })();
+</script>
+</body>
+</html>

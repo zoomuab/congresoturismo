@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentación — IX Congreso Nacional de Profesionales en Turismo · Moxeña 2026</title>
+<meta name="description" content="Presentación, objetivos y ejes temáticos del IX Congreso Nacional de Profesionales en Turismo. Santísima Trinidad, Beni — 3, 4 y 5 de septiembre de 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2E9D3; --cream-2:#EADFBF; --ink:#221708;
+    --jungle:#163A2E; --jungle-dk:#0E2620; --jungle-dker:#081813;
+    --brick:#A2432A; --brick-dk:#7C2E1B;
+    --gold:#C9971F; --gold-lt:#E8C878; --gold-pale:#F4E4B8; --macaw:#1C5D8C;
+    --shadow:0 20px 50px rgba(14,38,32,.25); --shadow-lg:0 30px 70px rgba(14,38,32,.35);
+    --serif:"Fraunces",serif; --sans:"Manrope",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--cream); color:var(--ink); font-family:var(--sans);
+    line-height:1.6; overflow-x:hidden; -webkit-font-smoothing:antialiased;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 28px;}
+  h1,h2,h3{font-family:var(--serif); margin:0; font-weight:600; color:var(--jungle-dk);}
+  .eyebrow{font-family:var(--sans); font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+    font-size:.72rem; color:var(--brick);}
+  ::selection{background:var(--gold-lt); color:var(--jungle-dk);}
+  :focus-visible{ outline:3px solid var(--gold); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important;}
+    .reveal{opacity:1 !important; transform:none !important;}
+  }
+
+  /* ---------- nav ---------- */
+  .nav{ position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(14,38,32,.95); backdrop-filter:blur(6px); box-shadow:0 8px 24px rgba(0,0,0,.18); padding:12px 0;}
+  .nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .brand{display:flex; align-items:center; gap:10px; color:#fff; text-decoration:none;}
+  .brand-mark{width:38px; height:38px; border-radius:50%; flex:none;
+    background:radial-gradient(circle at 32% 30%, var(--gold-lt), var(--gold));
+    display:flex; align-items:center; justify-content:center; color:var(--jungle-dker);
+    font-family:var(--serif); font-weight:700; font-size:1.05rem;}
+  .brand span{font-family:var(--serif); font-weight:600; font-size:1.05rem; letter-spacing:.02em;}
+  .navlinks{display:flex; align-items:center; gap:28px;}
+  .navlinks a{color:#F2E9D3; text-decoration:none; font-size:.86rem; font-weight:600;
+    letter-spacing:.03em; opacity:.85; transition:opacity .2s;}
+  .navlinks a:hover{opacity:1;}
+  .navlinks a.active{opacity:1; color:var(--gold-lt);}
+  .nav-cta{background:var(--gold); color:var(--jungle-dk) !important; padding:9px 18px; border-radius:100px;
+    font-weight:800 !important; opacity:1 !important; font-size:.8rem !important;}
+  .burger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:6px;}
+  .burger span{width:24px; height:2px; background:#fff; display:block; transition:transform .3s, opacity .3s;}
+  @media (max-width:860px){
+    .navlinks{position:fixed; top:0; right:0; height:100vh; width:min(320px,82vw); background:var(--jungle-dk);
+      flex-direction:column; justify-content:center; align-items:flex-start; gap:26px; padding:40px;
+      transform:translateX(100%); transition:transform .4s ease; z-index:120;}
+    .navlinks.open{transform:translateX(0);}
+    .navlinks a{font-size:1.05rem;}
+    .burger{display:flex; z-index:130;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ background:linear-gradient(160deg, var(--jungle-dker), var(--jungle)); color:#fff;
+    padding:clamp(120px,18vh,170px) 0 clamp(56px,9vh,90px); position:relative; overflow:hidden;}
+  .hero::after{content:""; position:absolute; right:-8%; top:-30%; width:520px; height:520px; border-radius:50%;
+    background:radial-gradient(circle, rgba(232,200,120,.20) 0%, rgba(232,200,120,0) 70%); pointer-events:none;}
+  .hero .wrap{position:relative; z-index:2; max-width:840px;}
+  .hero .eyebrow{color:var(--gold-lt);}
+  .hero h1{font-size:clamp(2.8rem,7vw,4.8rem); line-height:1; color:#fff; margin:14px 0 18px; letter-spacing:-.01em;}
+  .hero-sub{font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.1rem,2.6vw,1.6rem);
+    color:var(--gold-pale); line-height:1.4; max-width:720px;}
+  .hero-meta{display:flex; flex-wrap:wrap; gap:12px; margin-top:30px;}
+  .pill{display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.28); padding:10px 18px; border-radius:100px; font-size:.82rem; font-weight:600;}
+
+  /* ---------- sections ---------- */
+  .sec{padding:clamp(60px,9vh,100px) 0;}
+  .sec-head{max-width:720px; margin:0 auto 48px;}
+  .sec-head.center{text-align:center; margin-left:auto; margin-right:auto;}
+  .sec-head h2{font-size:clamp(2rem,4vw,2.9rem); margin-top:10px;}
+  .lead{font-size:1.08rem; color:#4A3B26; line-height:1.75;}
+  .lead p{margin:0 0 18px;}
+  .lead p:last-child{margin-bottom:0;}
+
+  .presentacion{background:var(--cream);}
+  .pres-card{background:#fff; border:1px solid #E4D6AE; border-radius:22px; padding:clamp(26px,4vw,48px);
+    box-shadow:0 12px 30px rgba(34,23,8,.06); max-width:900px; margin:0 auto;}
+  .pres-card p{margin:0 0 18px; color:#4A3B26; font-size:1.04rem; line-height:1.75;}
+  .pres-card p:last-child{margin-bottom:0;}
+  .pres-card .drop{font-family:var(--serif); font-weight:600; color:var(--brick);}
+
+  .objetivo{background:var(--jungle-dk); color:var(--cream);}
+  .objetivo .sec-head h2{color:#fff;}
+  .objetivo .eyebrow{color:var(--gold-lt);}
+  .obj-card{max-width:900px; margin:0 auto; background:rgba(255,255,255,.04);
+    border:1px solid rgba(232,200,120,.20); border-radius:22px; padding:clamp(26px,4vw,44px);}
+  .obj-card p{margin:0; font-size:1.12rem; line-height:1.8; color:#EFE7CF;}
+  .obj-card .quote-mark{font-family:var(--serif); font-size:3rem; color:var(--gold-lt); line-height:.6; display:block; margin-bottom:8px;}
+
+  .especificos{background:var(--cream-2);}
+  .obj-list{list-style:none; margin:0 auto; padding:0; max-width:960px;
+    display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:760px){ .obj-list{grid-template-columns:1fr;} }
+  .obj-list li{display:flex; gap:14px; align-items:flex-start; background:#fff; border:1px solid #E4D6AE;
+    border-radius:16px; padding:20px 22px; box-shadow:0 8px 20px rgba(34,23,8,.05);}
+  .obj-list .chk{flex:none; width:30px; height:30px; border-radius:50%; background:var(--gold-pale);
+    color:var(--brick-dk); display:flex; align-items:center; justify-content:center; font-weight:800; margin-top:2px;}
+  .obj-list .chk svg{width:16px; height:16px;}
+  .obj-list p{margin:0; font-size:.98rem; color:#3d3117; line-height:1.55;}
+
+  .ejes{background:var(--cream);}
+  .eje-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:26px; max-width:1040px; margin:0 auto;}
+  @media (max-width:820px){ .eje-grid{grid-template-columns:1fr;} }
+  .eje-card{background:#fff; border:1px solid #E4D6AE; border-radius:20px; overflow:hidden;
+    box-shadow:var(--shadow); display:flex; flex-direction:column; transition:transform .35s ease, box-shadow .35s ease;}
+  .eje-card:hover{transform:translateY(-6px); box-shadow:var(--shadow-lg);}
+  .eje-card:nth-child(5){grid-column:1 / -1;}
+  @media (max-width:820px){ .eje-card:nth-child(5){grid-column:auto;} }
+  .eje-top{background:linear-gradient(140deg, var(--jungle), var(--jungle-dk)); color:#fff; padding:22px 26px;
+    display:flex; align-items:center; gap:16px;}
+  .eje-num{flex:none; width:52px; height:52px; border-radius:14px; background:rgba(232,200,120,.16);
+    border:1px solid rgba(232,200,120,.4); display:flex; align-items:center; justify-content:center;
+    font-family:var(--serif); font-size:1.5rem; font-weight:700; color:var(--gold-lt);}
+  .eje-top h3{color:#fff; font-size:1.22rem; line-height:1.2;}
+  .eje-body{padding:22px 26px 26px; display:flex; flex-wrap:wrap; gap:9px;}
+  .chip{display:inline-block; font-size:.8rem; font-weight:600; color:var(--jungle-dk);
+    background:var(--gold-pale); border:1px solid #E4D0A0; border-radius:100px; padding:7px 14px;}
+
+  /* ---------- cta ---------- */
+  .cta{background:linear-gradient(160deg, var(--brick), var(--brick-dk)); color:#fff; text-align:center;}
+  .cta h2{color:#fff; font-size:clamp(2rem,4.5vw,3rem);}
+  .cta p{max-width:560px; margin:16px auto 30px; color:#F6E5D8; font-size:1.05rem;}
+  .btn{display:inline-flex; align-items:center; gap:8px; padding:16px 34px; border-radius:100px;
+    font-weight:800; font-size:.95rem; text-decoration:none; border:2px solid transparent; cursor:pointer;
+    transition:transform .25s ease, background .25s ease; white-space:nowrap;}
+  .btn:hover{transform:translateY(-3px);}
+  .btn-gold{background:var(--gold); color:var(--jungle-dk); box-shadow:0 14px 30px rgba(201,151,31,.35);}
+  .btn-gold:hover{background:var(--gold-lt);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--jungle-dk); color:var(--cream-2); padding:56px 0 28px;}
+  .foot-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:40px; align-items:start;}
+  @media (max-width:760px){ .foot-grid{grid-template-columns:1fr; gap:28px;} }
+  .foot-brand{display:flex; align-items:center; gap:12px;}
+  .foot-brand span{font-family:var(--serif); font-size:1.15rem; color:#fff;}
+  footer p{font-size:.9rem; color:#9EAD9F; margin-top:14px; max-width:420px; line-height:1.65;}
+  footer h4{font-family:var(--sans); font-size:.78rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--gold-lt); margin:0 0 14px;}
+  footer ul{list-style:none; margin:0; padding:0; font-size:.92rem;}
+  footer li{margin-bottom:10px; color:#C9D4C9;}
+  footer a{text-decoration:none;}
+  .foot-bottom{margin-top:44px; padding-top:22px; border-top:1px solid rgba(255,255,255,.1);
+    font-size:.82rem; color:#8FA090; text-align:center; line-height:1.7;}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease;}
+  .reveal.show{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <span class="brand-mark">M</span>
+      <span>Moxeña 2026</span>
+    </a>
+    <button class="burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="navlinks" id="navlinks">
+      <a href="/">Inicio</a>
+      <a href="/presentacion" class="active" aria-current="page">Presentación</a>
+      <a href="/recorridos">Recorridos</a>
+      <a href="/#inscripcion" class="nav-cta">Inscripción</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">IX Congreso Nacional de Profesionales en Turismo</p>
+    <h1>Presentación</h1>
+    <p class="hero-sub">"Primeras Misiones Jesuíticas de Moxos: patrimonio, cultura y turismo sostenible"</p>
+    <div class="hero-meta">
+      <span class="pill">Santísima Trinidad, Beni</span>
+      <span class="pill">3, 4 y 5 de septiembre de 2026</span>
+      <span class="pill">Modalidad presencial</span>
+    </div>
+  </div>
+</header>
+
+<section class="sec presentacion">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">El encuentro</p>
+      <h2>Presentación</h2>
+    </div>
+    <div class="pres-card reveal">
+      <p><span class="drop">El Comité Departamental Organizador</span> en coordinación con el Colegio de Profesionales en Turismo del Beni, el Colegio Nacional de Profesionales en Turismo de Bolivia y las instituciones públicas y privadas vinculadas al desarrollo turístico, tienen el honor de convocar al IX Congreso Nacional de Profesionales en Turismo, denominado: "PRIMERAS MISIONES JESUÍTICAS DEL MOXOS", que se llevará a cabo del 3 al 5 de septiembre del presente año.</p>
+      <p>Este importante encuentro nacional reunirá a profesionales en turismo, investigadores, docentes universitarios, gestores culturales, operadores turísticos, instituciones públicas y privadas y organizaciones vinculadas al patrimonio cultural y natural de Bolivia.</p>
+      <p>En esta versión, el Congreso propone un formato innovador que integra el análisis académico con el conocimiento vivencial del territorio, permitiendo a los participantes recorrer las tres primeras Misiones Jesuíticas de Moxos, fundadas en el Departamento del Beni: Santísima Trinidad, Loreto y San Ignacio de Moxos.</p>
+      <p>Estas poblaciones representan el origen histórico de las Misiones Jesuíticas de Moxos y constituyen un patrimonio de extraordinario valor cultural, religioso, arquitectónico, musical e identitario para Bolivia.</p>
+      <p>El Congreso busca generar propuestas que fortalezcan la conservación del patrimonio, impulsen el turismo sostenible y promuevan nuevos modelos de desarrollo turístico para las comunidades misionales.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec objetivo">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <p class="eyebrow">Hacia dónde vamos</p>
+      <h2>Objetivo general</h2>
+    </div>
+    <div class="obj-card reveal">
+      <span class="quote-mark">&ldquo;</span>
+      <p>Promover el intercambio académico, científico y profesional sobre la gestión del patrimonio cultural, las Misiones Jesuíticas de Moxos y el desarrollo del turismo sostenible, mediante un congreso nacional que combine el análisis técnico con la experiencia territorial en las Primeras Misiones Jesuíticas del Departamento del Beni.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec especificos">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <p class="eyebrow">Metas concretas</p>
+      <h2>Objetivos específicos</h2>
+    </div>
+    <ul class="obj-list">
+      <li class="reveal"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><p>Revalorizar las Primeras Misiones Jesuíticas del Departamento del Beni como patrimonio histórico y turístico.</p></li>
+      <li class="reveal"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><p>Fortalecer la identidad cultural de los pueblos misionales de Moxos.</p></li>
+      <li class="reveal"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><p>Analizar estrategias para el desarrollo del turismo cultural y comunitario.</p></li>
+      <li class="reveal"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><p>Generar espacios de intercambio entre profesionales, investigadores e instituciones.</p></li>
+      <li class="reveal"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><p>Formular propuestas para fortalecer los circuitos turísticos de las Misiones Jesuíticas de Moxos.</p></li>
+      <li class="reveal"><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><p>Promover alianzas entre instituciones públicas, privadas y académicas para la conservación y promoción del patrimonio cultural, natural y turístico.</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="sec ejes">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <p class="eyebrow">Contenido académico</p>
+      <h2>Ejes temáticos</h2>
+    </div>
+    <div class="eje-grid">
+      <article class="eje-card reveal">
+        <div class="eje-top"><span class="eje-num">1</span><h3>Patrimonio Cultural y Misiones Jesuíticas</h3></div>
+        <div class="eje-body">
+          <span class="chip">Historia de las Misiones Jesuíticas de Moxos</span>
+          <span class="chip">Conservación del patrimonio</span>
+          <span class="chip">Arquitectura misional</span>
+          <span class="chip">Museos</span>
+          <span class="chip">Patrimonio religioso</span>
+          <span class="chip">Patrimonio inmaterial</span>
+          <span class="chip">Identidad cultural</span>
+        </div>
+      </article>
+      <article class="eje-card reveal">
+        <div class="eje-top"><span class="eje-num">2</span><h3>Turismo Cultural y Desarrollo Sostenible</h3></div>
+        <div class="eje-body">
+          <span class="chip">Turismo sostenible</span>
+          <span class="chip">Turismo comunitario</span>
+          <span class="chip">Turismo patrimonial</span>
+          <span class="chip">Gestión de destinos turísticos</span>
+          <span class="chip">Economía del turismo</span>
+          <span class="chip">Desarrollo local</span>
+          <span class="chip">Emprendimientos turísticos</span>
+        </div>
+      </article>
+      <article class="eje-card reveal">
+        <div class="eje-top"><span class="eje-num">3</span><h3>Innovación, Marketing y Promoción Turística</h3></div>
+        <div class="eje-body">
+          <span class="chip">Marketing de destinos</span>
+          <span class="chip">Marca destino</span>
+          <span class="chip">Inteligencia Artificial aplicada al turismo</span>
+          <span class="chip">Turismo inteligente</span>
+          <span class="chip">Plataformas digitales</span>
+          <span class="chip">Comunicación turística</span>
+        </div>
+      </article>
+      <article class="eje-card reveal">
+        <div class="eje-top"><span class="eje-num">4</span><h3>Gestión del Patrimonio y Políticas Públicas</h3></div>
+        <div class="eje-body">
+          <span class="chip">Legislación turística</span>
+          <span class="chip">Gestión pública del turismo</span>
+          <span class="chip">Gobernanza</span>
+          <span class="chip">Planificación territorial</span>
+          <span class="chip">Financiamiento</span>
+          <span class="chip">Cooperación internacional</span>
+        </div>
+      </article>
+      <article class="eje-card reveal">
+        <div class="eje-top"><span class="eje-num">5</span><h3>Investigación e Innovación en Turismo</h3></div>
+        <div class="eje-body">
+          <span class="chip">Investigación científica</span>
+          <span class="chip">Observatorios turísticos</span>
+          <span class="chip">Estadísticas</span>
+          <span class="chip">Calidad turística</span>
+          <span class="chip">Educación turística</span>
+          <span class="chip">Formación profesional</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec cta">
+  <div class="wrap reveal">
+    <p class="eyebrow" style="color:var(--gold-pale)">Cupos limitados</p>
+    <h2>Inscríbete al congreso</h2>
+    <p>Sé parte de tres días de encuentro académico y experiencia viva en las Primeras Misiones Jesuíticas de Moxos.</p>
+    <a class="btn btn-gold" href="/#inscripcion">Inscríbete al congreso</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand"><span class="brand-mark">M</span><span>Moxeña 2026</span></div>
+        <p>IX Congreso Nacional de Profesionales en Turismo · Santísima Trinidad, Beni — 3, 4 y 5 de septiembre de 2026. Organizan el Colegio de Profesionales en Turismo del Beni (CPTB) y el Colegio Nacional de Profesionales en Turismo (CONALTUR).</p>
+      </div>
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/presentacion">Presentación</a></li>
+          <li><a href="/recorridos">Recorridos</a></li>
+          <li><a href="/#inscripcion">Inscripción</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      IX Congreso Nacional de Profesionales en Turismo · Santísima Trinidad, Beni — 3, 4 y 5 de septiembre de 2026<br>
+      Organizan: CPTB y CONALTUR
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var burger=document.getElementById('burger'), links=document.getElementById('navlinks');
+    burger.addEventListener('click',function(){
+      var open=links.classList.toggle('open');
+      burger.setAttribute('aria-expanded', open?'true':'false');
+    });
+    links.addEventListener('click',function(e){ if(e.target.tagName==='A'){ links.classList.remove('open'); burger.setAttribute('aria-expanded','false'); } });
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var items = document.querySelectorAll('.reveal');
+    if(reduce || !('IntersectionObserver' in window)){
+      items.forEach(function(el){ el.classList.add('show'); });
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('show'); io.unobserve(en.target); } });
+      }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+      items.forEach(function(el){ io.observe(el); });
+    }
+  })();
+</script>
+</body>
+</html>

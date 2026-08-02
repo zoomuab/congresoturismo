@@ -5,6 +5,10 @@
   const STORAGE_KEY = 'moxena_registrations_v1';
   const table = cfg.registrationsTable || 'congreso_registrations';
   const remoteEnabled = Boolean(cfg.supabaseUrl && cfg.supabasePublishableKey);
+  // Solo las columnas que usa el panel: evita descargar datos innecesarios (menos egress).
+  const SELECT_COLUMNS = 'id,code,full_name,email,phone,institution,category,amount,pricing_type,payment_status,registered_at';
+  // Intervalo de auto-refresco. Más espaciado en remoto para no acumular egress con la pestaña abierta.
+  const REFRESH_MS = remoteEnabled ? 120000 : 5000;
   const SESSION_KEY = 'moxena_admin_session_v1';
   let authFlowActive = false;
 
@@ -191,7 +195,7 @@
       document.querySelectorAll('.badge-demo').forEach((el) => { el.textContent = remoteEnabled ? 'Sincronizado' : 'Modo local'; });
       if (remoteEnabled) {
         if (!getSession()?.access_token) { showLogin(); return; }
-        const rows = await request(`${table}?select=*&order=registered_at.desc`);
+        const rows = await request(`${table}?select=${SELECT_COLUMNS}&order=registered_at.desc`);
         registrations = rows.map(normalize);
       } else {
         registrations = readLocal();
@@ -250,6 +254,6 @@
     const settings = JSON.parse(localStorage.getItem('moxena_settings_v1') || '{}');
     Object.entries(settings).forEach(([id, value]) => { const input = document.getElementById(id); if (input) input.value = value; });
   } catch (_) { /* keep defaults */ }
-  setInterval(refresh, remoteEnabled ? 30000 : 5000);
+  setInterval(refresh, REFRESH_MS);
   if (!handleAuthCallback()) refresh();
 })();

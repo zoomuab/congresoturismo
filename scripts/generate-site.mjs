@@ -15,6 +15,10 @@ if (!supabaseUrl || !supabasePublishableKey) {
 const publicFiles = [
   'moxena-congreso-v2.html',
   'admin-moxena.html',
+  'presentacion.html',
+  'recorridos.html',
+  'verificar.html',
+  'certificado.html',
   'moxena-system.js',
   'admin-system.js'
 ];

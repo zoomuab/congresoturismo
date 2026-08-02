@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificar certificado — IX Congreso Nacional de Profesionales en Turismo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F2E9D3; --cream-2:#EADFBF; --ink:#221708;
+    --jungle:#163A2E; --jungle-dk:#0E2620; --jungle-dker:#081813;
+    --brick:#A2432A; --brick-dk:#7C2E1B;
+    --gold:#C9971F; --gold-lt:#E8C878; --gold-pale:#F4E4B8;
+    --serif:"Fraunces",serif; --sans:"Manrope",sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{ margin:0; font-family:var(--sans); color:#fff; line-height:1.55;
+    min-height:100vh; background:linear-gradient(160deg,var(--jungle-dker),var(--jungle)); display:flex; flex-direction:column; }
+  a{color:inherit;}
+  .nav{ padding:18px 0; }
+  .wrap{ max-width:640px; margin:0 auto; padding:0 22px; width:100%; }
+  .brand{ display:flex; align-items:center; gap:11px; text-decoration:none; color:#fff; }
+  .brand .mark{ width:38px; height:38px; border-radius:10px; background:radial-gradient(circle at 32% 28%,var(--gold-lt),var(--gold));
+    display:flex; align-items:center; justify-content:center; color:var(--jungle-dker); font-family:var(--serif); font-weight:700; }
+  .brand span{ font-family:var(--serif); font-size:1.05rem; }
+  main{ flex:1; display:flex; align-items:center; padding:30px 0 60px; }
+  .card{ background:rgba(255,255,255,.06); border:1px solid rgba(232,200,120,.28); border-radius:22px; padding:34px; backdrop-filter:blur(6px); }
+  .eyebrow{ font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-lt); font-weight:700; }
+  h1{ font-family:var(--serif); font-weight:600; font-size:clamp(1.7rem,4vw,2.3rem); margin:8px 0 6px; }
+  .lead{ color:#C9D4C9; font-size:.95rem; margin-bottom:22px; }
+  form{ display:flex; gap:10px; flex-wrap:wrap; }
+  input{ flex:1; min-width:180px; padding:14px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.22);
+    background:rgba(255,255,255,.08); color:#fff; font-family:var(--sans); font-size:1rem; letter-spacing:.04em; }
+  input::placeholder{ color:#9fb0a9; }
+  .btn{ padding:14px 26px; border-radius:12px; border:none; background:var(--gold); color:var(--jungle-dk);
+    font-weight:800; font-size:.95rem; cursor:pointer; font-family:var(--sans); }
+  .btn:disabled{ opacity:.6; cursor:not-allowed; }
+  .result{ margin-top:24px; display:none; }
+  .result.show{ display:block; }
+  .valid{ border-left:4px solid #37c26b; background:rgba(55,194,107,.10); border-radius:12px; padding:20px 22px; }
+  .invalid{ border-left:4px solid var(--brick); background:rgba(162,67,42,.14); border-radius:12px; padding:20px 22px; }
+  .valid .tag{ color:#7ff0a6; } .invalid .tag{ color:#ffb59f; }
+  .tag{ display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; font-size:.78rem; }
+  .rname{ font-family:var(--serif); font-size:1.5rem; margin:10px 0 4px; }
+  .rrows{ margin-top:14px; display:grid; gap:8px; font-size:.9rem; color:#E7EFE7; }
+  .rrows div{ display:flex; justify-content:space-between; gap:16px; border-bottom:1px dashed rgba(255,255,255,.14); padding-bottom:7px; }
+  .rrows b{ color:#fff; font-weight:700; }
+  .cta{ margin-top:18px; display:inline-flex; gap:8px; align-items:center; background:var(--gold); color:var(--jungle-dk);
+    text-decoration:none; padding:12px 20px; border-radius:100px; font-weight:800; font-size:.88rem; }
+  footer{ padding:22px 0; text-align:center; color:#7f9083; font-size:.78rem; }
+  .back{ display:inline-block; margin-top:20px; color:var(--gold-lt); text-decoration:none; font-size:.86rem; }
+</style>
+</head>
+<body>
+  <nav class="nav"><div class="wrap"><a class="brand" href="/"><span class="mark">M</span><span>Congreso Moxeña</span></a></div></nav>
+  <main>
+    <div class="wrap">
+      <div class="card">
+        <p class="eyebrow">Certificación oficial</p>
+        <h1>Verifica un certificado</h1>
+        <p class="lead">Ingresa el código de verificación que aparece en el certificado para confirmar su autenticidad.</p>
+        <form id="verify-form">
+          <input id="code" type="text" placeholder="Ej. MOX-CERT-2026-0001" autocomplete="off" required>
+          <button class="btn" id="btn" type="submit">Verificar</button>
+        </form>
+        <div class="result" id="result"></div>
+        <a class="back" href="/">← Volver al inicio</a>
+      </div>
+    </div>
+  </main>
+  <footer>IX Congreso Nacional de Profesionales en Turismo · Trinidad, Beni — 3, 4 y 5 de septiembre de 2026</footer>
+
+<script src="moxena-config.js"></script>
+<script>
+  (function(){
+    const cfg = window.MOXENA_CONFIG || {};
+    const form = document.getElementById('verify-form');
+    const input = document.getElementById('code');
+    const btn = document.getElementById('btn');
+    const resultEl = document.getElementById('result');
+
+    function fmtDate(iso){
+      if(!iso) return '—';
+      try{ return new Date(iso).toLocaleDateString('es-BO',{day:'2-digit',month:'long',year:'numeric'}); }
+      catch(_){ return iso; }
+    }
+    function showInvalid(code){
+      resultEl.className = 'result show';
+      resultEl.innerHTML = `<div class="invalid">
+        <div class="tag">✕ Certificado no encontrado</div>
+        <p style="margin:10px 0 0;color:#F0DCD5;">No existe un certificado válido con el código <b>${code}</b>. Verifica que esté bien escrito o contacta al organizador.</p>
+      </div>`;
+    }
+    function showValid(c){
+      const code = c.certificate_code || '';
+      resultEl.className = 'result show';
+      resultEl.innerHTML = `<div class="valid">
+        <div class="tag">✓ Certificado válido</div>
+        <div class="rname">${c.full_name || '—'}</div>
+        <div class="rrows">
+          <div><span>Evento</span><b>${c.event_title || 'IX Congreso Nacional de Profesionales en Turismo'}</b></div>
+          <div><span>Fechas</span><b>${c.event_dates || '3, 4 y 5 de septiembre de 2026'}</b></div>
+          <div><span>Lugar</span><b>${c.event_location || 'Trinidad, Beni — Bolivia'}</b></div>
+          <div><span>Carga horaria</span><b>${c.certificate_hours ?? 24} horas académicas</b></div>
+          <div><span>Emitido</span><b>${fmtDate(c.certificate_issued_at)}</b></div>
+          <div><span>Código</span><b>${code}</b></div>
+        </div>
+        <a class="cta" href="/certificado?codigo=${encodeURIComponent(code)}">Ver / descargar certificado →</a>
+      </div>`;
+    }
+
+    // Prefill from ?codigo=
+    const pre = new URLSearchParams(location.search).get('codigo');
+    if(pre){ input.value = pre; }
+
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const code = input.value.trim();
+      if(!code) return;
+      if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){
+        resultEl.className='result show';
+        resultEl.innerHTML = '<div class="invalid"><div class="tag">Servicio no disponible</div><p style="margin:10px 0 0;color:#F0DCD5;">Intenta más tarde.</p></div>';
+        return;
+      }
+      btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Verificando…';
+      try{
+        const res = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/verify_congreso_certificate`, {
+          method:'POST',
+          headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}`, 'Content-Type':'application/json' },
+          body: JSON.stringify({ p_code: code })
+        });
+        if(!res.ok) throw new Error('http '+res.status);
+        const rows = await res.json();
+        const c = Array.isArray(rows) ? rows[0] : rows;
+        if(c && c.full_name) showValid(c); else showInvalid(code);
+      }catch(_){
+        resultEl.className='result show';
+        resultEl.innerHTML = '<div class="invalid"><div class="tag">Error de conexión</div><p style="margin:10px 0 0;color:#F0DCD5;">No se pudo verificar en este momento. Intenta nuevamente.</p></div>';
+      }finally{
+        btn.disabled=false; btn.textContent=orig;
+      }
+    });
+
+    if(pre){ form.requestSubmit(); }
+  })();
+</script>
+</body>
+</html>
