@@ -17,6 +17,8 @@ const publicFiles = [
   'admin-moxena.html',
   'presentacion.html',
   'recorridos.html',
+  'verificar.html',
+  'certificado.html',
   'moxena-system.js',
   'admin-system.js'
 ];
