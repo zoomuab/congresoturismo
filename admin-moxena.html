@@ -146,6 +146,13 @@
   .settings-row input[type=date], .settings-row input[type=number]{
     padding:10px 14px; border-radius:10px; border:1px solid #E4D6AE; font-family:var(--sans); font-size:.86rem;
   }
+  .cms-field{ margin-bottom:16px; }
+  .cms-field label{ display:block; font-size:.78rem; font-weight:800; letter-spacing:.03em; text-transform:uppercase; color:var(--jungle-dk); margin-bottom:6px; }
+  .cms-field input{ width:100%; padding:12px 14px; border-radius:10px; border:1px solid #E4D6AE; font-family:var(--sans); font-size:.92rem; color:#221708; }
+  .cms-field input:focus{ outline:2px solid var(--gold); border-color:var(--gold); }
+  .btn-primary{ background:var(--gold); color:var(--jungle-dk); border:none; border-radius:100px; padding:13px 26px; font-weight:800; font-size:.9rem; cursor:pointer; font-family:var(--sans); }
+  .btn-primary:hover{ background:#b8891c; }
+  .btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
 
   .drop-zone{
     border:2px dashed #E4D6AE; border-radius:14px; padding:26px; text-align:center; color:#8a7a54; font-size:.84rem;
@@ -187,6 +194,10 @@
       <a href="#misiones" class="nav-link" data-view="misiones">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c0-4 4-6 9-6s9 2 9 6M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
         Misiones y rutas
+      </a>
+      <a href="#contenido" class="nav-link" data-view="contenido">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h10"/><path d="M15.5 17.5l2 2 4-4"/></svg>
+        Contenido del sitio
       </a>
       <a href="#configuracion" class="nav-link" data-view="configuracion">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.04 1.56V21a2 2 0 0 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.56-1.04H3a2 2 0 0 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1.04-1.56V3a2 2 0 0 1 4 0v.09A1.7 1.7 0 0 0 15 4.6a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9a1.7 1.7 0 0 0 1.56 1.04H21a2 2 0 0 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15z"/></svg>
@@ -362,6 +373,36 @@
       </div>
     </section>
 
+    <!-- ===================== CONTENIDO DEL SITIO ===================== -->
+    <section class="view" id="view-contenido" style="display:none;">
+      <div class="topbar">
+        <div><h1>Contenido del sitio</h1><p>Edita los textos de la página pública. Los cambios se aplican al instante en la landing.</p></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Encabezado (hero)</h2><p>Título, fechas y lugar que se muestran arriba</p></div></div>
+        <div class="panel-body">
+          <div class="cms-field"><label>Título principal</label><input type="text" id="cms-hero_title_main" placeholder="IX Congreso Nacional"></div>
+          <div class="cms-field"><label>Subtítulo</label><input type="text" id="cms-hero_title_sub" placeholder="de Profesionales en Turismo"></div>
+          <div class="cms-field"><label>Fechas</label><input type="text" id="cms-hero_dates" placeholder="3, 4 y 5 de septiembre de 2026"></div>
+          <div class="cms-field"><label>Lugar</label><input type="text" id="cms-hero_place" placeholder="Trinidad, Beni — Bolivia"></div>
+          <div class="cms-field"><label>Misiones</label><input type="text" id="cms-hero_missions" placeholder="Misiones: Loreto · Trinidad · San Ignacio"></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div><h2>Datos bancarios</h2><p>Se muestran en la sección de pago</p></div></div>
+        <div class="panel-body">
+          <div class="cms-field"><label>Banco</label><input type="text" id="cms-bank_name" placeholder="Banco Unión S.A."></div>
+          <div class="cms-field"><label>Titular</label><input type="text" id="cms-bank_titular" placeholder="Nombre del titular"></div>
+          <div class="cms-field"><label>Cuenta (Bs)</label><input type="text" id="cms-bank_account" placeholder="Número de cuenta"></div>
+          <div class="cms-field"><label>Glosa</label><input type="text" id="cms-bank_glosa" placeholder="Congreso Nacional Moxeña"></div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:30px;">
+        <button class="btn-primary" id="cms-save" type="button">Guardar contenido</button>
+        <span id="cms-status" style="font-size:.86rem; color:#4A3B26;"></span>
+      </div>
+    </section>
+
     <!-- ===================== CONFIGURACION ===================== -->
     <section class="view" id="view-configuracion" style="display:none;">
       <div class="topbar">
@@ -403,7 +444,7 @@
 <script src="moxena-config.js"></script>
 <script>
   /* ---------- navigation ---------- */
-  const views = ['dashboard','inscripciones','precios','misiones','configuracion'];
+  const views = ['dashboard','inscripciones','precios','misiones','contenido','configuracion'];
   function showView(v){
     views.forEach(name=>{
       document.getElementById('view-'+name).style.display = (name===v) ? 'block' : 'none';
@@ -640,10 +681,48 @@
     renderStats(); toast('Meta de inscritos actualizada');
   });
 
+  /* ---------- CMS: contenido editable del sitio ---------- */
+  const CMS_KEYS = ['hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa'];
+  function cmsTable(){ return (window.MOXENA_CONFIG && window.MOXENA_CONFIG.settingsTable) || 'congreso_site_content'; }
+  function cmsSession(){ try{ return JSON.parse(localStorage.getItem('moxena_admin_session_v1')||'null'); }catch(_){ return null; } }
+  async function cmsLoad(){
+    const cfg = window.MOXENA_CONFIG||{}; if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) return;
+    try{
+      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?section_key=eq.landing&select=content`, {
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}` }
+      });
+      if(!res.ok) return;
+      const rows = await res.json(); const c = (rows[0] && rows[0].content) || {};
+      CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el && c[k]!=null) el.value=c[k]; });
+    }catch(_){}
+  }
+  async function cmsSave(){
+    const cfg = window.MOXENA_CONFIG||{};
+    const status = document.getElementById('cms-status'); const btn = document.getElementById('cms-save');
+    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no está configurado.'; return; }
+    const session = cmsSession();
+    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador para guardar.'; return; }
+    const content={}; CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el) content[k]=el.value.trim(); });
+    btn.disabled=true; status.textContent='Guardando…';
+    try{
+      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?on_conflict=section_key`, {
+        method:'POST',
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
+        body: JSON.stringify({ section_key:'landing', content })
+      });
+      if(!res.ok) throw new Error(await res.text());
+      status.textContent='✓ Guardado. La landing pública ya muestra los cambios.';
+      toast('Contenido del sitio actualizado');
+    }catch(e){ status.textContent='No se pudo guardar: '+ (e.message||e); }
+    finally{ btn.disabled=false; }
+  }
+  document.getElementById('cms-save')?.addEventListener('click', cmsSave);
+
   /* ---------- init ---------- */
   renderPriceTable();
   renderTable();
   renderStats();
+  cmsLoad();
 </script>
 <script src="admin-system.js"></script>
 </body>
