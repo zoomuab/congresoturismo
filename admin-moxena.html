@@ -76,6 +76,7 @@
 
   /* main */
   .main{ padding:32px clamp(20px,3vw,44px) 60px; }
+  @media (max-width:960px){ .main{ padding:78px 16px 52px; } }
   .topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:14px; }
   .topbar h1{ font-size:1.7rem; }
   .topbar p{ margin:4px 0 0; color:#6b5b3e; font-size:.9rem; }
@@ -107,7 +108,8 @@
   .panel-head{ display:flex; align-items:center; justify-content:space-between; padding:20px 24px; border-bottom:1px solid #F1E6C8; flex-wrap:wrap; gap:14px; }
   .panel-head h2{ font-size:1.15rem; }
   .panel-head p{ margin:2px 0 0; font-size:.82rem; color:#6b5b3e; }
-  .panel-body{ padding:22px 24px; }
+  .panel-body{ padding:22px 24px; overflow-x:auto; }
+  .panel-body table{ min-width:520px; }
 
   .toolbar{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
   .toolbar input[type=text], .toolbar select{
