@@ -40,8 +40,8 @@
   }
   /* Código de verificación — pie */
   .cert-code{
-    position:absolute; bottom:1.6%; left:0; right:0; text-align:center;
-    font-family:var(--sans); font-size:clamp(.42rem,.95vw,.72rem); color:#4a3b26; letter-spacing:.02em;
+    position:absolute; bottom:1%; left:0; right:0; text-align:center; white-space:nowrap;
+    font-family:var(--sans); font-size:clamp(.38rem,.9vw,.66rem); color:#6b5b3e; letter-spacing:.04em;
   }
   .cert-code b{ color:#7C2E1B; }
 
@@ -65,7 +65,7 @@
   <div class="cert-wrap" id="cert-wrap" style="display:none;">
     <div class="cert" id="cert-sheet">
       <div class="cert-name" id="c-name">—</div>
-      <div class="cert-code">Certificado con <b id="c-hours">24</b> horas académicas · Código <b id="c-code">—</b> · Verifica en <b id="c-verify">/verificar</b></div>
+      <div class="cert-code">Código: <b id="c-code">—</b></div>
     </div>
   </div>
 
@@ -106,6 +106,10 @@
         var c = (rows[0] && rows[0].content) || {};
         var tpl = c.img_cert_template || DEFAULT_TEMPLATE;
         document.getElementById('cert-sheet').style.backgroundImage = 'url("'+tpl+'")';
+        // Posicion del nombre configurable (por si se cambia la plantilla)
+        var nameEl = document.getElementById('c-name');
+        if(c.cert_name_top){ nameEl.style.top = parseFloat(c.cert_name_top) + '%'; }
+        if(c.cert_name_color){ nameEl.style.color = c.cert_name_color; }
       })
       .catch(function(){ document.getElementById('cert-sheet').style.backgroundImage = 'url("'+DEFAULT_TEMPLATE+'")'; });
 
@@ -121,8 +125,6 @@
       if(!c){ return fail('No encontramos un certificado válido con el código <b>'+code+'</b>.<br>Verifica el código o escribe al organizador.'); }
       document.getElementById('c-name').textContent = c.full_name || '—';
       document.getElementById('c-code').textContent = c.certificate_code || code;
-      document.getElementById('c-hours').textContent = (c.certificate_hours != null ? c.certificate_hours : 24);
-      document.getElementById('c-verify').textContent = location.host + '/verificar';
       stateEl.style.display='none';
       document.getElementById('cert-wrap').style.display='block';
       document.getElementById('toolbar').style.display='flex';
