@@ -461,7 +461,10 @@
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_2"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 2 — Santísima Trinidad</label><input type="file" accept="image/*" data-imgkey="img_city_2" class="cms-file"><p class="cms-hint">Foto de Trinidad.</p></div></div>
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_3"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 3 — San Ignacio de Moxos</label><input type="file" accept="image/*" data-imgkey="img_city_3" class="cms-file"><p class="cms-hint">Foto de San Ignacio.</p></div></div>
           </div>
-          <div class="cms-field" style="max-width:380px; margin-top:18px;"><label>Posición vertical del nombre en el certificado (%)</label><input type="number" id="cms-cert_name_top" min="0" max="100" step="0.5" placeholder="57.5"><p class="cms-hint" style="margin-top:6px;">Ajusta solo si cambias la plantilla: número más alto = nombre más abajo. Por defecto 57.5.</p></div>
+          <div style="display:flex; gap:18px; flex-wrap:wrap; margin-top:18px;">
+            <div class="cms-field" style="max-width:280px;"><label>Posición vertical del nombre (%)</label><input type="number" id="cms-cert_name_top" min="0" max="100" step="0.5" placeholder="57.5"><p class="cms-hint" style="margin-top:6px;">Número más alto = más abajo. Por defecto 57.5.</p></div>
+            <div class="cms-field" style="max-width:280px;"><label>Posición vertical del código (%)</label><input type="number" id="cms-cert_code_top" min="0" max="100" step="0.5" placeholder="(abajo)"><p class="cms-hint" style="margin-top:6px;">Vacío = abajo. Un número lo coloca a esa altura.</p></div>
+          </div>
           <span id="cms-img-status" style="font-size:.86rem; color:#4A3B26; display:block; margin-top:12px;"></span>
         </div>
       </div>
@@ -755,7 +758,7 @@
   });
 
   /* ---------- CMS: contenido editable del sitio (textos + imagenes) ---------- */
-  const CMS_KEYS = ['site_title','hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa','cert_name_top'];
+  const CMS_KEYS = ['site_title','hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa','cert_name_top','cert_code_top'];
   const CMS_IMG_KEYS = ['img_logo','img_medallion','img_hero_bg','img_qr','img_cert_template','img_city_1','img_city_2','img_city_3'];
   let cmsCurrent = {};
   function cmsTable(){ return (window.MOXENA_CONFIG && window.MOXENA_CONFIG.settingsTable) || 'congreso_site_content'; }
