@@ -37,7 +37,16 @@
 
   /* sidebar */
   .side{ background:var(--jungle-dk); color:var(--cream-2); padding:26px 20px; position:sticky; top:0; height:100vh; overflow-y:auto; }
-  @media (max-width:960px){ .side{ position:relative; height:auto; } }
+  @media (max-width:960px){
+    .side{ position:sticky; top:0; height:auto; padding:12px 14px; z-index:20; box-shadow:0 6px 18px rgba(0,0,0,.25); }
+    .side-brand{ margin-bottom:12px; }
+    .side-brand img{ height:36px; }
+    .side nav{ flex-direction:row; flex-wrap:nowrap; overflow-x:auto; gap:8px; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+    .side nav a{ white-space:nowrap; padding:9px 13px; font-size:.82rem; }
+    .side-foot{ display:none; }
+    .main{ padding:22px 16px 52px; }
+    .topbar h1{ font-size:1.4rem; }
+  }
   .side-brand{ display:flex; align-items:center; gap:12px; margin-bottom:34px; }
   .side-brand img{ height:42px; }
   .side-brand span{ font-family:var(--serif); color:#fff; font-size:1.05rem; }
@@ -390,6 +399,7 @@
       <div class="panel">
         <div class="panel-head"><div><h2>Encabezado (hero)</h2><p>Título, fechas y lugar que se muestran arriba</p></div></div>
         <div class="panel-body">
+          <div class="cms-field"><label>Título de la cabecera (junto al logo)</label><input type="text" id="cms-site_title" placeholder="Congreso Moxeña"></div>
           <div class="cms-field"><label>Título principal</label><input type="text" id="cms-hero_title_main" placeholder="IX Congreso Nacional"></div>
           <div class="cms-field"><label>Subtítulo</label><input type="text" id="cms-hero_title_sub" placeholder="de Profesionales en Turismo"></div>
           <div class="cms-field"><label>Fechas</label><input type="text" id="cms-hero_dates" placeholder="3, 4 y 5 de septiembre de 2026"></div>
@@ -706,7 +716,7 @@
   });
 
   /* ---------- CMS: contenido editable del sitio (textos + imagenes) ---------- */
-  const CMS_KEYS = ['hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa'];
+  const CMS_KEYS = ['site_title','hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa'];
   const CMS_IMG_KEYS = ['img_logo','img_hero_bg','img_qr','img_city_1','img_city_2','img_city_3'];
   let cmsCurrent = {};
   function cmsTable(){ return (window.MOXENA_CONFIG && window.MOXENA_CONFIG.settingsTable) || 'congreso_site_content'; }
