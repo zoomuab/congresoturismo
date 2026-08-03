@@ -1146,7 +1146,15 @@
         const val = c[key];
         if(val != null && String(val).trim() !== '') el.textContent = val;
       });
-    }catch(_){ /* si falla, se mantienen los textos por defecto */ }
+      // Imágenes editables desde el admin
+      const setImg = (sel, url)=>{ if(!url) return; document.querySelectorAll(sel).forEach(img=>{ img.src = url; }); };
+      setImg('.brand img', c.img_logo);
+      setImg('.foot-brand img', c.img_logo);
+      setImg('.qr-row img', c.img_qr);
+      if(c.img_hero_bg){ const hb=document.querySelector('.hero-bg'); if(hb) hb.style.backgroundImage = `linear-gradient(rgba(8,24,19,.55),rgba(8,24,19,.55)), url("${c.img_hero_bg}")`; }
+      const cities = document.querySelectorAll('.mcard-img img');
+      [c.img_city_1, c.img_city_2, c.img_city_3].forEach((u,i)=>{ if(u && cities[i]) cities[i].src = u; });
+    }catch(_){ /* si falla, se mantienen los textos/imagenes por defecto */ }
   }
   document.addEventListener('DOMContentLoaded', applySiteContent);
 </script>
