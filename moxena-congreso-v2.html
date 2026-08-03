@@ -938,8 +938,8 @@
 
 <script>
   /* ---------- pricing config ---------- */
-  const PROMO_CUTOFF = new Date("2026-08-10T23:59:59-04:00").getTime();
-  const CATEGORY_PRICES = {
+  let PROMO_CUTOFF = new Date("2026-08-10T23:59:59-04:00").getTime();
+  let CATEGORY_PRICES = {
     "Afiliado a CONALTUR": { promo:500, regular:600 },
     "Profesional en Turismo": { promo:550, regular:650 },
     "Externo": { promo:600, regular:700 }
@@ -1209,12 +1209,28 @@
     if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) return;
     const tbl = cfg.settingsTable || 'congreso_site_content';
     try{
-      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${tbl}?section_key=eq.landing&select=content`, {
+      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${tbl}?section_key=in.(landing,pricing)&select=section_key,content`, {
         headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}` }
       });
       if(!res.ok) return;
       const rows = await res.json();
-      const c = (rows && rows[0] && rows[0].content) || null;
+      const byKey = {}; (rows||[]).forEach(r=>{ byKey[r.section_key] = r.content; });
+
+      // Precios editables desde el admin
+      const pr = byKey.pricing;
+      if(pr){
+        if(pr.cutoff){ const t = new Date(pr.cutoff + 'T23:59:59-04:00').getTime(); if(!isNaN(t)) PROMO_CUTOFF = t; }
+        ['Afiliado a CONALTUR','Profesional en Turismo','Externo'].forEach(cat=>{
+          if(pr[cat]){ CATEGORY_PRICES[cat] = { promo: Number(pr[cat].promo) || CATEGORY_PRICES[cat].promo, regular: Number(pr[cat].regular) || CATEGORY_PRICES[cat].regular }; }
+        });
+        document.querySelectorAll('.price-card').forEach(card=>{
+          const cp = CATEGORY_PRICES[card.dataset.cat];
+          if(cp){ card.dataset.promo = cp.promo; card.dataset.regular = cp.regular; }
+        });
+        try{ renderPricing(); updatePricePreview(); }catch(_){}
+      }
+
+      const c = byKey.landing || null;
       if(!c) return;
       document.querySelectorAll('[data-cms]').forEach(el=>{
         const key = el.getAttribute('data-cms');
