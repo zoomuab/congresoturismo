@@ -1237,16 +1237,31 @@
         const val = c[key];
         if(val != null && String(val).trim() !== '') el.textContent = val;
       });
-      // Imágenes editables desde el admin
-      const setImg = (sel, url)=>{ if(!url) return; document.querySelectorAll(sel).forEach(img=>{ img.src = url; }); };
+      // Imágenes editables desde el admin — se precargan y sólo se cambia el src
+      // cuando la nueva imagen ya está lista, con un fundido, para evitar el
+      // "parpadeo" de la imagen por defecto antes de mostrar la real.
+      const swapImg = (img, url)=>{
+        if(!url || !img) return;
+        const pre = new Image();
+        pre.onload = ()=>{
+          img.style.transition = 'opacity .35s ease';
+          img.style.opacity = '0';
+          setTimeout(()=>{ img.src = url; img.style.opacity = '1'; }, 180);
+        };
+        pre.src = url;
+      };
+      const setImg = (sel, url)=>{ if(!url) return; document.querySelectorAll(sel).forEach(img=> swapImg(img, url)); };
       setImg('.brand img', c.img_logo);
       setImg('.foot-brand img', c.img_logo);
       setImg('.hero-medallion-wrap img, .intro-medallion img', c.img_medallion);
       setImg('.qr-row img', c.img_qr);
       if(c.img_favicon){ const fav = document.getElementById('favicon'); if(fav) fav.href = c.img_favicon; }
-      if(c.img_hero_bg){ const hb=document.querySelector('.hero-bg'); if(hb) hb.style.backgroundImage = `linear-gradient(rgba(8,24,19,.55),rgba(8,24,19,.55)), url("${c.img_hero_bg}")`; }
+      if(c.img_hero_bg){
+        const hb=document.querySelector('.hero-bg');
+        if(hb){ const pre=new Image(); pre.onload=()=>{ hb.style.transition='background-image .4s ease'; hb.style.backgroundImage = `linear-gradient(rgba(8,24,19,.55),rgba(8,24,19,.55)), url("${c.img_hero_bg}")`; }; pre.src=c.img_hero_bg; }
+      }
       const cities = document.querySelectorAll('.mcard-img img');
-      [c.img_city_1, c.img_city_2, c.img_city_3].forEach((u,i)=>{ if(u && cities[i]) cities[i].src = u; });
+      [c.img_city_1, c.img_city_2, c.img_city_3].forEach((u,i)=>{ if(u && cities[i]) swapImg(cities[i], u); });
     }catch(_){ /* si falla, se mantienen los textos/imagenes por defecto */ }
   }
   document.addEventListener('DOMContentLoaded', applySiteContent);
