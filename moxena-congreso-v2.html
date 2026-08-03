@@ -70,9 +70,10 @@
   .nav.solid{ background:rgba(14,38,32,.95); backdrop-filter:blur(6px); box-shadow:0 8px 24px rgba(0,0,0,.18); padding:10px 0;}
   .nav .wrap{display:flex; align-items:center; justify-content:space-between;}
   .brand{display:flex; align-items:center; gap:12px; color:#fff; text-decoration:none;}
-  .brand img{height:48px; width:auto; transition:height .3s ease;}
-  .nav.solid .brand img{height:40px;}
-  .brand span{font-family:var(--serif); font-weight:600; font-size:1.1rem; letter-spacing:.02em;}
+  .brand img{height:64px; width:auto; transition:height .3s ease;}
+  .nav.solid .brand img{height:50px;}
+  .brand span{font-family:var(--serif); font-weight:600; font-size:1.28rem; letter-spacing:.02em; line-height:1.05;}
+  @media (max-width:560px){ .brand img{height:52px;} .brand span{font-size:1.05rem;} }
   .navlinks{display:flex; align-items:center; gap:30px;}
   .navlinks a{
     color:#F2E9D3; text-decoration:none; font-size:.86rem; font-weight:600;
@@ -96,7 +97,7 @@
   /* ---------- hero ---------- */
   .hero{
     position:relative; min-height:100svh; display:flex; align-items:center;
-    background:var(--jungle-dker); color:#fff; padding:clamp(110px,16vh,150px) 0 clamp(50px,8vh,80px);
+    background:var(--jungle-dker); color:#fff; padding:clamp(96px,13vh,130px) 0 clamp(44px,6vh,70px);
     overflow:hidden;
   }
   .hero-bg{
@@ -111,26 +112,26 @@
   .hero-text{ text-align:left; }
   .hero .eyebrow{ color:var(--gold-lt); font-size:.76rem; }
   .hero-script{
-    font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.15rem,2.6vw,1.65rem);
-    color:var(--gold-pale); margin-top:16px;
+    font-family:var(--serif); font-style:italic; font-weight:500; font-size:clamp(1.05rem,2.4vw,1.5rem);
+    color:var(--gold-pale); margin-top:8px;
   }
   .hero h1{
-    font-size:clamp(3.6rem, 9vw, 6.6rem); line-height:.9; letter-spacing:-.01em; color:#fff;
-    text-shadow:0 4px 34px rgba(0,0,0,.4); margin:2px 0 12px;
+    font-size:clamp(3rem, 7.6vw, 5.4rem); line-height:.88; letter-spacing:-.01em; color:#fff;
+    text-shadow:0 4px 34px rgba(0,0,0,.4); margin:2px 0 6px;
   }
   .hero-congress{
-    font-family:var(--sans); font-weight:800; font-size:clamp(1.5rem,3.4vw,2.35rem); letter-spacing:.03em;
-    color:#fff; text-transform:uppercase; line-height:1.12; margin-top:10px;
+    font-family:var(--sans); font-weight:800; font-size:clamp(1.35rem,3vw,2.05rem); letter-spacing:.02em;
+    color:#fff; text-transform:uppercase; line-height:1.1; margin-top:4px;
     text-shadow:0 3px 22px rgba(0,0,0,.45);
   }
-  .hero-congress span{ display:block; font-weight:600; font-size:.56em; color:var(--gold-lt); letter-spacing:.16em; margin-top:8px; }
-  .hero-meta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+  .hero-congress span{ display:block; font-weight:600; font-size:.56em; color:var(--gold-lt); letter-spacing:.16em; margin-top:6px; }
+  .hero-meta{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 22px; margin-top:22px; }
   .pill{
-    display:flex; align-items:center; gap:9px; background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.28);
-    padding:11px 18px; border-radius:100px; font-size:.82rem; font-weight:600; backdrop-filter:blur(4px);
+    display:inline-flex; align-items:center; gap:9px; background:none; border:none; padding:0;
+    font-size:.92rem; font-weight:600; color:var(--gold-pale);
   }
-  .pill svg{width:15px; height:15px; flex:none;}
-  .hero-ctas{ display:flex; gap:16px; margin-top:34px; flex-wrap:wrap;}
+  .pill svg{ width:17px; height:17px; flex:none; color:var(--gold-lt); }
+  .hero-ctas{ display:flex; gap:16px; margin-top:26px; flex-wrap:wrap;}
   .btn{
     display:inline-flex; align-items:center; gap:8px; padding:16px 30px; border-radius:100px;
     font-weight:800; font-size:.92rem; text-decoration:none; letter-spacing:.01em; border:2px solid transparent;
@@ -157,15 +158,16 @@
     .hero-text{ text-align:center; }
     .hero-meta, .hero-ctas{ justify-content:center; }
     .hero-medallion-wrap{ order:-1; margin-bottom:2px;}
-    .hero-medallion-wrap img{ width:min(190px,52vw); }
-    .hero-meta{ margin-top:22px; gap:9px; }
-    .hero-ctas{ margin-top:26px; }
+    .hero-medallion-wrap img{ width:min(180px,48vw); }
+    .hero-meta{ margin-top:18px; gap:8px 18px; }
+    .hero-ctas{ margin-top:22px; }
   }
   @media (max-width:560px){
-    .hero h1{ font-size:clamp(3rem,17vw,4.4rem); }
-    .hero-congress{ font-size:1rem; }
-    .hero-script{ margin-top:10px; }
-    .pill{ padding:9px 14px; font-size:.76rem; }
+    .hero h1{ font-size:clamp(2.8rem,15vw,3.8rem); }
+    .hero-congress{ font-size:1.05rem; }
+    .hero-script{ margin-top:8px; }
+    .pill{ font-size:.84rem; }
+    .hero-meta{ flex-direction:column; align-items:center; gap:10px; }
     .hero-ctas .btn{ width:100%; justify-content:center; }
     .scroll-cue{ display:none; }
   }
@@ -381,9 +383,16 @@
   .bank-data{ font-size:.92rem; }
   .bank-data div{ margin-bottom:8px; }
   .bank-data b{ color:var(--jungle-dk); }
-  .steps{ margin-top:26px; border-top:1px dashed #E4D6AE; padding-top:22px; }
-  .steps ol{ margin:0; padding-left:20px; font-size:.9rem; color:#4A3B26; }
-  .steps li{ margin-bottom:10px; }
+  .steps{ margin-top:24px; border-top:1px dashed #E4D6AE; padding-top:22px; display:flex; flex-direction:column; gap:14px; }
+  .steps .step{ display:flex; gap:13px; align-items:flex-start; }
+  .steps .step-n{ flex:none; width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,var(--jungle-dk),var(--jungle));
+    color:var(--gold-lt); font-weight:800; font-size:.85rem; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 10px rgba(14,38,32,.25); }
+  .steps .step p{ margin:0; font-size:.9rem; color:#4A3B26; line-height:1.5; }
+  .steps .step b{ color:var(--jungle-dk); }
+  .pay-wa{ margin-top:22px; display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
+    background:#1FAF57; color:#fff; padding:15px; border-radius:12px; font-weight:800; text-decoration:none; font-size:.95rem;
+    box-shadow:0 12px 26px rgba(31,175,87,.35); transition:transform .2s ease, background .2s ease; }
+  .pay-wa:hover{ background:#189246; transform:translateY(-2px); }
   .wa-btn{
     margin-top:20px; display:flex; align-items:center; justify-content:center; gap:10px; width:100%;
     background:#1FAF57; color:#fff; padding:15px; border-radius:12px; font-weight:800; text-decoration:none;
@@ -788,12 +797,14 @@
           </div>
         </div>
         <div class="steps">
-          <ol>
-            <li>Genera tu comprobante de registro con el botón de la izquierda.</li>
-            <li>Escanea el QR o deposita a la cuenta indicada, en bolivianos.</li>
-            <li>Envía tu comprobante de registro + el comprobante de pago por WhatsApp al <b>72844056</b> para confirmar tu cupo.</li>
-          </ol>
+          <div class="step"><span class="step-n">1</span><p>Genera tu <b>comprobante de registro</b> con el botón de la izquierda.</p></div>
+          <div class="step"><span class="step-n">2</span><p>Escanea el <b>QR</b> o deposita a la cuenta indicada, en bolivianos.</p></div>
+          <div class="step"><span class="step-n">3</span><p>Envía tu comprobante de registro + el <b>comprobante de pago</b> por WhatsApp para confirmar tu cupo.</p></div>
         </div>
+        <a class="pay-wa" id="pay-wa" href="https://wa.me/59172844056" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.3-1.38a9.87 9.87 0 0 0 4.74 1.2h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7A9.82 9.82 0 0 0 12.04 2zm5.8 14.06c-.24.68-1.42 1.32-1.95 1.36-.5.05-.97.24-3.27-.68-2.76-1.09-4.5-3.9-4.64-4.08-.14-.18-1.1-1.46-1.1-2.79 0-1.33.7-1.98.95-2.25a1 1 0 0 1 .72-.34c.18 0 .36 0 .52.01.17.01.4-.06.62.48.24.57.8 1.96.87 2.1.07.14.12.31.02.5-.09.18-.14.29-.28.45-.14.16-.3.36-.42.48-.14.14-.29.29-.12.57.17.28.74 1.22 1.59 1.98 1.1.98 2.02 1.28 2.3 1.42.29.14.45.12.62-.07.17-.19.72-.84.91-1.13.19-.28.38-.24.64-.14.26.09 1.66.78 1.94.93.29.14.48.21.55.32.07.12.07.66-.17 1.34z"/></svg>
+          Enviar comprobante por WhatsApp
+        </a>
       </div>
     </div>
 
@@ -1135,7 +1146,15 @@
         const val = c[key];
         if(val != null && String(val).trim() !== '') el.textContent = val;
       });
-    }catch(_){ /* si falla, se mantienen los textos por defecto */ }
+      // Imágenes editables desde el admin
+      const setImg = (sel, url)=>{ if(!url) return; document.querySelectorAll(sel).forEach(img=>{ img.src = url; }); };
+      setImg('.brand img', c.img_logo);
+      setImg('.foot-brand img', c.img_logo);
+      setImg('.qr-row img', c.img_qr);
+      if(c.img_hero_bg){ const hb=document.querySelector('.hero-bg'); if(hb) hb.style.backgroundImage = `linear-gradient(rgba(8,24,19,.55),rgba(8,24,19,.55)), url("${c.img_hero_bg}")`; }
+      const cities = document.querySelectorAll('.mcard-img img');
+      [c.img_city_1, c.img_city_2, c.img_city_3].forEach((u,i)=>{ if(u && cities[i]) cities[i].src = u; });
+    }catch(_){ /* si falla, se mantienen los textos/imagenes por defecto */ }
   }
   document.addEventListener('DOMContentLoaded', applySiteContent);
 </script>

@@ -153,6 +153,15 @@
   .btn-primary{ background:var(--gold); color:var(--jungle-dk); border:none; border-radius:100px; padding:13px 26px; font-weight:800; font-size:.9rem; cursor:pointer; font-family:var(--sans); }
   .btn-primary:hover{ background:#b8891c; }
   .btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
+  .cms-imgs{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:820px){ .cms-imgs{ grid-template-columns:1fr; } }
+  .cms-img{ display:flex; gap:14px; align-items:center; border:1px solid #EFE2BC; border-radius:14px; padding:14px; background:#FDFAF0; }
+  .cms-img-preview{ flex:none; width:96px; height:72px; border-radius:10px; background:#F1E6C8 center/cover no-repeat; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .cms-img-preview span{ font-size:.68rem; color:#a99a75; text-align:center; }
+  .cms-img-info{ flex:1; min-width:0; }
+  .cms-img-info label{ display:block; font-size:.82rem; font-weight:800; color:var(--jungle-dk); margin-bottom:6px; }
+  .cms-file{ font-size:.8rem; width:100%; }
+  .cms-hint{ font-size:.72rem; color:#8a7a54; margin:6px 0 0; }
 
   .drop-zone{
     border:2px dashed #E4D6AE; border-radius:14px; padding:26px; text-align:center; color:#8a7a54; font-size:.84rem;
@@ -398,8 +407,23 @@
         </div>
       </div>
       <div style="display:flex; align-items:center; gap:14px; margin-bottom:30px;">
-        <button class="btn-primary" id="cms-save" type="button">Guardar contenido</button>
+        <button class="btn-primary" id="cms-save" type="button">Guardar textos</button>
         <span id="cms-status" style="font-size:.86rem; color:#4A3B26;"></span>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><div><h2>Imágenes del sitio</h2><p>Sube tus imágenes. Se guardan y publican al instante en la landing.</p></div></div>
+        <div class="panel-body">
+          <div class="cms-imgs">
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_logo"><span>Sin imagen</span></div><div class="cms-img-info"><label>Logo de la cabecera</label><input type="file" accept="image/*" data-imgkey="img_logo" class="cms-file"><p class="cms-hint">PNG con fondo transparente. Aparece en el menú y el pie.</p></div></div>
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_hero_bg"><span>Sin imagen</span></div><div class="cms-img-info"><label>Foto de fondo del hero</label><input type="file" accept="image/*" data-imgkey="img_hero_bg" class="cms-file"><p class="cms-hint">Horizontal, mínimo 1600px de ancho.</p></div></div>
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_qr"><span>Sin imagen</span></div><div class="cms-img-info"><label>QR de pago</label><input type="file" accept="image/*" data-imgkey="img_qr" class="cms-file"><p class="cms-hint">Imagen del QR bancario.</p></div></div>
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_1"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 1 — Loreto</label><input type="file" accept="image/*" data-imgkey="img_city_1" class="cms-file"><p class="cms-hint">Foto de la misión de Loreto.</p></div></div>
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_2"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 2 — Santísima Trinidad</label><input type="file" accept="image/*" data-imgkey="img_city_2" class="cms-file"><p class="cms-hint">Foto de Trinidad.</p></div></div>
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_3"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 3 — San Ignacio de Moxos</label><input type="file" accept="image/*" data-imgkey="img_city_3" class="cms-file"><p class="cms-hint">Foto de San Ignacio.</p></div></div>
+          </div>
+          <span id="cms-img-status" style="font-size:.86rem; color:#4A3B26; display:block; margin-top:12px;"></span>
+        </div>
       </div>
     </section>
 
@@ -681,10 +705,17 @@
     renderStats(); toast('Meta de inscritos actualizada');
   });
 
-  /* ---------- CMS: contenido editable del sitio ---------- */
+  /* ---------- CMS: contenido editable del sitio (textos + imagenes) ---------- */
   const CMS_KEYS = ['hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa'];
+  const CMS_IMG_KEYS = ['img_logo','img_hero_bg','img_qr','img_city_1','img_city_2','img_city_3'];
+  let cmsCurrent = {};
   function cmsTable(){ return (window.MOXENA_CONFIG && window.MOXENA_CONFIG.settingsTable) || 'congreso_site_content'; }
   function cmsSession(){ try{ return JSON.parse(localStorage.getItem('moxena_admin_session_v1')||'null'); }catch(_){ return null; } }
+  function setPreview(key, url){
+    const box = document.getElementById('prev-'+key); if(!box) return;
+    if(url){ box.style.backgroundImage = `url("${url}")`; box.innerHTML=''; }
+    else { box.style.backgroundImage=''; box.innerHTML='<span>Sin imagen</span>'; }
+  }
   async function cmsLoad(){
     const cfg = window.MOXENA_CONFIG||{}; if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) return;
     try{
@@ -692,31 +723,60 @@
         headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}` }
       });
       if(!res.ok) return;
-      const rows = await res.json(); const c = (rows[0] && rows[0].content) || {};
-      CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el && c[k]!=null) el.value=c[k]; });
+      const rows = await res.json(); cmsCurrent = (rows[0] && rows[0].content) || {};
+      CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el && cmsCurrent[k]!=null) el.value=cmsCurrent[k]; });
+      CMS_IMG_KEYS.forEach(k=> setPreview(k, cmsCurrent[k]));
     }catch(_){}
   }
-  async function cmsSave(){
+  async function cmsPersist(){
     const cfg = window.MOXENA_CONFIG||{};
-    const status = document.getElementById('cms-status'); const btn = document.getElementById('cms-save');
-    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no está configurado.'; return; }
     const session = cmsSession();
-    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador para guardar.'; return; }
-    const content={}; CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el) content[k]=el.value.trim(); });
+    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) throw new Error('Supabase no está configurado.');
+    if(!session || !session.access_token) throw new Error('Inicia sesión como administrador.');
+    const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?on_conflict=section_key`, {
+      method:'POST',
+      headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ section_key:'landing', content: cmsCurrent })
+    });
+    if(!res.ok) throw new Error(await res.text());
+  }
+  async function cmsSave(){
+    const status = document.getElementById('cms-status'); const btn = document.getElementById('cms-save');
+    CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el) cmsCurrent[k]=el.value.trim(); });
     btn.disabled=true; status.textContent='Guardando…';
-    try{
-      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?on_conflict=section_key`, {
-        method:'POST',
-        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
-        body: JSON.stringify({ section_key:'landing', content })
-      });
-      if(!res.ok) throw new Error(await res.text());
-      status.textContent='✓ Guardado. La landing pública ya muestra los cambios.';
-      toast('Contenido del sitio actualizado');
-    }catch(e){ status.textContent='No se pudo guardar: '+ (e.message||e); }
+    try{ await cmsPersist(); status.textContent='✓ Guardado. La landing ya muestra los cambios.'; toast('Contenido actualizado'); }
+    catch(e){ status.textContent='No se pudo guardar: '+ (e.message||e); }
     finally{ btn.disabled=false; }
   }
+  async function cmsUpload(key, file){
+    const cfg = window.MOXENA_CONFIG||{};
+    const status = document.getElementById('cms-img-status');
+    const session = cmsSession();
+    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no está configurado.'; return; }
+    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador para subir imágenes.'; return; }
+    if(file.size > 5*1024*1024){ status.textContent='La imagen supera 5 MB. Usa una más liviana.'; return; }
+    const ext = (file.name.split('.').pop()||'png').toLowerCase().replace(/[^a-z0-9]/g,'') || 'png';
+    const path = `${key}-${Date.now()}.${ext}`;
+    status.textContent='Subiendo imagen…';
+    try{
+      const up = await fetch(`${cfg.supabaseUrl}/storage/v1/object/sitio/${path}`, {
+        method:'POST',
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':file.type||'application/octet-stream', 'x-upsert':'true' },
+        body:file
+      });
+      if(!up.ok) throw new Error(await up.text());
+      const publicUrl = `${cfg.supabaseUrl}/storage/v1/object/public/sitio/${path}`;
+      cmsCurrent[key] = publicUrl;
+      await cmsPersist();
+      setPreview(key, publicUrl);
+      status.textContent='✓ Imagen subida y publicada.';
+      toast('Imagen actualizada');
+    }catch(e){ status.textContent='No se pudo subir: '+ (e.message||e); }
+  }
   document.getElementById('cms-save')?.addEventListener('click', cmsSave);
+  document.querySelectorAll('.cms-file').forEach(inp=>{
+    inp.addEventListener('change', (e)=>{ const f=e.target.files && e.target.files[0]; if(f) cmsUpload(inp.dataset.imgkey, f); });
+  });
 
   /* ---------- init ---------- */
   renderPriceTable();
