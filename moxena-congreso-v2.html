@@ -221,7 +221,8 @@
   .intro-badge b{ display:block; font-family:var(--serif); font-size:1rem; color:var(--jungle-dk); }
   .intro-badge span{ font-size:.84rem; color:#6b5b3e; }
   .intro-medallion{ position:relative; display:flex; align-items:center; justify-content:center; }
-  .intro-medallion img{ width:260px; }
+  .intro-medallion img{ width:260px; filter:drop-shadow(0 18px 40px rgba(14,38,32,.35)); animation:floatsway 8s ease-in-out infinite; }
+  @keyframes floatsway{ 0%,100%{ transform:translateY(0) rotate(-1.2deg); } 50%{ transform:translateY(-14px) rotate(1.2deg); } }
   @media (max-width:860px){ .intro-grid{ grid-template-columns:1fr; } .intro-medallion{order:-1;} }
 
   /* missions */
@@ -346,7 +347,14 @@
   .reg-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:56px; position:relative; z-index:2; }
   .reg-grid > *{ min-width:0; }
   @media (max-width:920px){ .reg-grid{ grid-template-columns:1fr; gap:28px; } }
-  @media (max-width:560px){ .reg-card, .pay-card{ padding:24px 20px; } }
+  @media (max-width:560px){
+    .reg-card, .pay-card{ padding:24px 20px; }
+    .reg-card .btn{ white-space:normal; font-size:.86rem; padding:15px 18px; line-height:1.25; }
+    .qr-row{ justify-content:center; text-align:center; gap:18px; }
+    .qr-row img{ width:min(240px,72%); }
+    .bank-data{ width:100%; }
+    .pay-wa{ font-size:.86rem; padding:14px; }
+  }
   .reg-card{
     background:rgba(255,255,255,.05); border:1px solid rgba(232,200,120,.25); border-radius:24px; padding:38px;
     backdrop-filter:blur(6px);
@@ -1152,6 +1160,7 @@
       const setImg = (sel, url)=>{ if(!url) return; document.querySelectorAll(sel).forEach(img=>{ img.src = url; }); };
       setImg('.brand img', c.img_logo);
       setImg('.foot-brand img', c.img_logo);
+      setImg('.hero-medallion-wrap img, .intro-medallion img', c.img_medallion);
       setImg('.qr-row img', c.img_qr);
       if(c.img_hero_bg){ const hb=document.querySelector('.hero-bg'); if(hb) hb.style.backgroundImage = `linear-gradient(rgba(8,24,19,.55),rgba(8,24,19,.55)), url("${c.img_hero_bg}")`; }
       const cities = document.querySelectorAll('.mcard-img img');
