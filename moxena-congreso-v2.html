@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IX Congreso Nacional de Profesionales en Turismo — Moxeña 2026</title>
 <meta name="description" content="IX Congreso Nacional de Profesionales en Turismo · Primeras Misiones Jesuíticas de Moxos · Trinidad, Beni — 3, 4 y 5 de septiembre de 2026.">
+<link id="favicon" rel="icon" href="/og-congreso.jpg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="IX Congreso Nacional de Profesionales en Turismo — Moxeña 2026">
+<meta property="og:description" content="Primeras Misiones Jesuíticas de Moxos · Trinidad, Beni — 3, 4 y 5 de septiembre de 2026. Inscríbete al congreso.">
+<meta property="og:image" content="https://congresoturismo.vercel.app/og-congreso.jpg">
+<meta property="og:url" content="https://congresoturismo.vercel.app/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="IX Congreso Nacional de Profesionales en Turismo — Moxeña 2026">
+<meta name="twitter:description" content="Primeras Misiones Jesuíticas de Moxos · Trinidad, Beni — 3, 4 y 5 de septiembre de 2026.">
+<meta name="twitter:image" content="https://congresoturismo.vercel.app/og-congreso.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1217,6 +1227,7 @@
       setImg('.foot-brand img', c.img_logo);
       setImg('.hero-medallion-wrap img, .intro-medallion img', c.img_medallion);
       setImg('.qr-row img', c.img_qr);
+      if(c.img_favicon){ const fav = document.getElementById('favicon'); if(fav) fav.href = c.img_favicon; }
       if(c.img_hero_bg){ const hb=document.querySelector('.hero-bg'); if(hb) hb.style.backgroundImage = `linear-gradient(rgba(8,24,19,.55),rgba(8,24,19,.55)), url("${c.img_hero_bg}")`; }
       const cities = document.querySelectorAll('.mcard-img img');
       [c.img_city_1, c.img_city_2, c.img_city_3].forEach((u,i)=>{ if(u && cities[i]) cities[i].src = u; });
