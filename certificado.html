@@ -5,86 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Certificado — IX Congreso Nacional de Profesionales en Turismo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&family=Great+Vibes&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#F2E9D3; --cream-2:#EADFBF; --ink:#221708;
-    --jungle:#163A2E; --jungle-dk:#0E2620; --jungle-dker:#081813;
-    --brick:#A2432A; --brick-dk:#7C2E1B;
-    --gold:#C9971F; --gold-lt:#E8C878; --gold-pale:#F4E4B8;
-    --serif:"Fraunces",serif; --sans:"Manrope",sans-serif;
+    --gold:#C9971F; --gold-lt:#E8C878; --jungle-dk:#0E2620; --jungle-dker:#081813;
+    --serif:"Fraunces",serif; --sans:"Manrope",sans-serif; --script:"Great Vibes",cursive;
   }
   *{box-sizing:border-box;}
   html,body{ overflow-x:hidden; }
-  body{ margin:0; background:radial-gradient(circle at 50% 0%, #0f2620, #071410); color:var(--ink);
-    font-family:var(--sans); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:24px 14px 40px; gap:18px; }
+  body{ margin:0; background:radial-gradient(circle at 50% 0%, #0f2620, #071410); color:#EFE2BC;
+    font-family:var(--sans); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:22px 12px 40px; gap:16px; }
   .toolbar{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
   .btn{ display:inline-flex; align-items:center; gap:8px; padding:12px 22px; border-radius:100px; font-weight:800;
     font-size:.9rem; text-decoration:none; border:2px solid transparent; cursor:pointer; font-family:var(--sans); }
   .btn-gold{ background:var(--gold); color:var(--jungle-dk); }
   .btn-gold:hover{ background:var(--gold-lt); }
   .btn-ghost{ background:transparent; color:#EFE2BC; border-color:rgba(255,255,255,.35); }
-  .state{ color:#EFE2BC; text-align:center; max-width:520px; line-height:1.6; }
+  .state{ text-align:center; max-width:520px; line-height:1.6; }
   .state a{ color:var(--gold-lt); }
 
-  /* ---- Certificate sheet (A4 landscape) ---- */
-  .cert-wrap{ width:100%; max-width:1080px; }
+  .cert-wrap{ width:100%; max-width:1100px; }
   .cert{
-    position:relative; background:
-      radial-gradient(circle at 12% 12%, rgba(232,200,120,.18), transparent 30%),
-      radial-gradient(circle at 88% 88%, rgba(162,67,42,.10), transparent 32%),
-      linear-gradient(150deg,#FFFDF7 0%, #F6EED7 100%);
-    aspect-ratio:1.414/1; width:100%; border-radius:8px; overflow:hidden;
-    box-shadow:0 40px 90px rgba(0,0,0,.6); display:flex;
+    position:relative; width:100%; aspect-ratio:2200 / 1702;
+    background:#fbf6e6 center/contain no-repeat;
+    box-shadow:0 34px 80px rgba(0,0,0,.6); border-radius:4px; overflow:hidden;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact;
   }
-  .cert-border{ position:absolute; inset:18px; border:2px solid var(--gold); border-radius:5px; z-index:1; }
-  .cert-border::after{ content:""; position:absolute; inset:7px; border:1px solid rgba(162,67,42,.35); border-radius:3px; }
-  .cert-corner{ position:absolute; width:54px; height:54px; z-index:3; border:0 solid var(--gold); }
-  .cert-corner.tl{ top:26px; left:26px; border-top-width:4px; border-left-width:4px; border-top-left-radius:6px; }
-  .cert-corner.tr{ top:26px; right:26px; border-top-width:4px; border-right-width:4px; border-top-right-radius:6px; }
-  .cert-corner.bl{ bottom:26px; left:26px; border-bottom-width:4px; border-left-width:4px; border-bottom-left-radius:6px; }
-  .cert-corner.br{ bottom:26px; right:26px; border-bottom-width:4px; border-right-width:4px; border-bottom-right-radius:6px; }
-
-  .cert-inner{ position:relative; z-index:2; flex:1; display:flex; flex-direction:column; align-items:center;
-    justify-content:flex-start; text-align:center; padding:min(5.6%,60px) min(7%,72px) min(4.6%,48px); }
-  .cert-logo{ height:min(15vw,120px); width:auto; margin-bottom:8px; filter:drop-shadow(0 8px 20px rgba(14,38,32,.28)); }
-  .cert-logo-fallback{ font-family:var(--serif); font-weight:700; color:var(--gold); font-size:clamp(1.2rem,2.4vw,1.8rem); letter-spacing:.04em; margin-bottom:6px; }
-  .cert-org{ font-size:clamp(.56rem,1vw,.72rem); letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--brick); }
-  .cert-kicker{ margin-top:min(3.4%,20px); font-size:clamp(.66rem,1.15vw,.82rem); letter-spacing:.34em; text-transform:uppercase; color:#8a7a54; font-weight:700; }
-  .cert-title{ font-family:var(--serif); font-weight:600; color:var(--jungle-dk); font-size:clamp(1.5rem,3.2vw,2.5rem); line-height:1.04; margin:6px 0 2px; }
-  .cert-sub{ font-family:var(--serif); font-style:italic; color:#6b5b3e; font-size:clamp(.8rem,1.5vw,1.05rem); }
-  .cert-award{ margin-top:min(3.4%,22px); font-size:clamp(.7rem,1.2vw,.9rem); letter-spacing:.1em; text-transform:uppercase; color:#6b5b3e; }
-  .cert-name{ font-family:var(--serif); font-weight:600; color:var(--brick-dk); font-size:clamp(1.9rem,4.6vw,3.4rem); line-height:1; margin:6px 0 6px; }
-  .cert-name-underline{ width:min(58%,440px); height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:0 auto; }
-  .cert-body{ margin-top:min(3%,20px); color:#3f3320; font-size:clamp(.78rem,1.32vw,1rem); line-height:1.6; max-width:80%; }
-  .cert-body b{ color:var(--jungle-dk); }
-
-  .cert-footrow{ margin-top:auto; width:100%; display:flex; align-items:flex-end; justify-content:space-between; gap:16px; padding-top:min(4%,26px); }
-  .cert-sign{ flex:1; text-align:center; }
-  .cert-sign .line{ width:min(84%,190px); height:1px; background:#6b5b3e; margin:0 auto 6px; }
-  .cert-sign b{ display:block; font-size:clamp(.62rem,1vw,.78rem); color:var(--jungle-dk); }
-  .cert-sign span{ font-size:clamp(.54rem,.9vw,.68rem); color:#8a7a54; }
-  .cert-seal{ flex:none; width:clamp(64px,9.5vw,104px); height:clamp(64px,9.5vw,104px); border-radius:50%;
-    background:radial-gradient(circle at 34% 30%, var(--gold-lt), var(--gold)); display:flex; flex-direction:column;
-    align-items:center; justify-content:center; color:var(--jungle-dker); box-shadow:0 8px 20px rgba(201,151,31,.5);
-    border:3px solid #fff; font-family:var(--serif); text-align:center; line-height:1.02; }
-  .cert-seal b{ font-size:clamp(.7rem,1.3vw,1rem); }
-  .cert-seal span{ font-size:clamp(.4rem,.72vw,.54rem); letter-spacing:.08em; text-transform:uppercase; margin-top:2px; }
-
-  .cert-verify{ position:absolute; left:0; right:0; bottom:min(3.4%,24px); text-align:center;
-    font-size:clamp(.5rem,.85vw,.64rem); color:#8a7a54; letter-spacing:.03em; z-index:2; }
-  .cert-verify b{ color:var(--brick-dk); }
+  /* Nombre del participante — sobre la línea de "Otorgado a:" */
+  .cert-name{
+    position:absolute; top:57.5%; height:9.5%; left:16%; right:16%;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    font-family:var(--script); color:#7C2E1B; line-height:1;
+    font-size:clamp(1.5rem, 4.6vw, 3.6rem); white-space:nowrap;
+  }
+  /* Código de verificación — pie */
+  .cert-code{
+    position:absolute; bottom:1.6%; left:0; right:0; text-align:center;
+    font-family:var(--sans); font-size:clamp(.42rem,.95vw,.72rem); color:#4a3b26; letter-spacing:.02em;
+  }
+  .cert-code b{ color:#7C2E1B; }
 
   @media print{
     @page{ size:A4 landscape; margin:0; }
     body{ background:#fff; padding:0; }
     .toolbar,.state{ display:none !important; }
     .cert-wrap{ max-width:none; }
-    .cert{ aspect-ratio:auto; width:100vw; height:100vh; border-radius:0; box-shadow:none; }
-  }
-  @media (max-width:640px){
-    .cert-body{ max-width:92%; }
-    .cert-footrow{ gap:8px; }
+    .cert{ width:100vw; height:100vh; aspect-ratio:auto; background-size:contain; border-radius:0; box-shadow:none; }
   }
 </style>
 </head>
@@ -97,32 +63,9 @@
   <div class="state" id="state">Cargando certificado…</div>
 
   <div class="cert-wrap" id="cert-wrap" style="display:none;">
-    <div class="cert">
-      <div class="cert-border"></div>
-      <span class="cert-corner tl"></span><span class="cert-corner tr"></span>
-      <span class="cert-corner bl"></span><span class="cert-corner br"></span>
-      <div class="cert-inner">
-        <img class="cert-logo" id="cert-logo" alt="" style="display:none;">
-        <div class="cert-logo-fallback" id="cert-logo-fallback">IX CONGRESO</div>
-        <div class="cert-org">Colegio de Profesionales en Turismo del Beni · CONALTUR Bolivia</div>
-        <div class="cert-kicker">Certificado de participación</div>
-        <div class="cert-title" id="c-title">IX Congreso Nacional de Profesionales en Turismo</div>
-        <div class="cert-sub">Primeras Misiones Jesuíticas de Moxos</div>
-        <div class="cert-award">Se otorga el presente certificado a</div>
-        <div class="cert-name" id="c-name">—</div>
-        <div class="cert-name-underline"></div>
-        <div class="cert-body">
-          Por su participación en el <b id="c-title2">IX Congreso Nacional de Profesionales en Turismo</b>,
-          realizado en <b id="c-place">Trinidad, Beni — Bolivia</b> los días <b id="c-dates">3, 4 y 5 de septiembre de 2026</b>,
-          con una carga horaria de <b><span id="c-hours">24</span> horas académicas</b>.
-        </div>
-        <div class="cert-footrow">
-          <div class="cert-sign"><div class="line"></div><b>Comité Departamental Organizador</b><span>CPTB — Beni</span></div>
-          <div class="cert-seal"><b id="c-seal-hours">24</b><span>horas</span></div>
-          <div class="cert-sign"><div class="line"></div><b>CONALTUR Bolivia</b><span>Colegio Nacional de Profesionales en Turismo</span></div>
-        </div>
-        <div class="cert-verify">Verifica la autenticidad en <b id="c-verifyurl">/verificar</b> · Código <b id="c-code">—</b> · Emitido <span id="c-issued">—</span></div>
-      </div>
+    <div class="cert" id="cert-sheet">
+      <div class="cert-name" id="c-name">—</div>
+      <div class="cert-code">Certificado con <b id="c-hours">24</b> horas académicas · Código <b id="c-code">—</b> · Verifica en <b id="c-verify">/verificar</b></div>
     </div>
   </div>
 
@@ -133,35 +76,38 @@
     var stateEl = document.getElementById('state');
     var params = new URLSearchParams(location.search);
     var code = params.get('codigo') || params.get('code') || '';
+    var DEFAULT_TEMPLATE = 'certificado-plantilla.jpg';
 
     function fail(msg){
       stateEl.innerHTML = msg; stateEl.style.display='block';
       document.getElementById('cert-wrap').style.display='none';
       document.getElementById('toolbar').style.display='none';
     }
-    function fmtDate(iso){
-      if(!iso) return '—';
-      try{ return new Date(iso).toLocaleDateString('es-BO',{day:'2-digit',month:'long',year:'numeric'}); }
-      catch(_){ return iso; }
+    function fitName(){
+      var el = document.getElementById('c-name');
+      el.style.fontSize = '';              // vuelve al tamano base (CSS)
+      var tries = 0;
+      while(el.scrollWidth > el.clientWidth + 1 && tries < 40){
+        var cur = parseFloat(getComputedStyle(el).fontSize);
+        el.style.fontSize = (cur * 0.94) + 'px';
+        tries++;
+      }
     }
 
     if(!code){ return fail('Falta el código del certificado en el enlace. Usa <a href="/verificar">la página de verificación</a>.'); }
     if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ return fail('Configuración no disponible. Intenta más tarde.'); }
     var headers = { apikey:cfg.supabasePublishableKey, Authorization:'Bearer '+cfg.supabasePublishableKey };
-
-    // Logo del congreso (desde el CMS)
     var tbl = cfg.settingsTable || 'congreso_site_content';
+
+    // Plantilla del certificado (CMS) — si no hay, usa la de por defecto
     fetch(cfg.supabaseUrl+'/rest/v1/'+tbl+'?section_key=eq.landing&select=content', { headers:headers })
       .then(function(r){ return r.ok ? r.json() : []; })
       .then(function(rows){
         var c = (rows[0] && rows[0].content) || {};
-        var logo = c.img_medallion || c.img_logo;
-        if(logo){
-          var img = document.getElementById('cert-logo');
-          img.src = logo; img.style.display='block';
-          document.getElementById('cert-logo-fallback').style.display='none';
-        }
-      }).catch(function(){});
+        var tpl = c.img_cert_template || DEFAULT_TEMPLATE;
+        document.getElementById('cert-sheet').style.backgroundImage = 'url("'+tpl+'")';
+      })
+      .catch(function(){ document.getElementById('cert-sheet').style.backgroundImage = 'url("'+DEFAULT_TEMPLATE+'")'; });
 
     // Datos del certificado (verificación pública)
     fetch(cfg.supabaseUrl+'/rest/v1/rpc/verify_congreso_certificate', {
@@ -176,16 +122,13 @@
       document.getElementById('c-name').textContent = c.full_name || '—';
       document.getElementById('c-code').textContent = c.certificate_code || code;
       document.getElementById('c-hours').textContent = (c.certificate_hours != null ? c.certificate_hours : 24);
-      document.getElementById('c-seal-hours').textContent = (c.certificate_hours != null ? c.certificate_hours : 24);
-      document.getElementById('c-issued').textContent = fmtDate(c.certificate_issued_at);
-      if(c.event_title){ document.getElementById('c-title').textContent = c.event_title; document.getElementById('c-title2').textContent = c.event_title; }
-      if(c.event_location) document.getElementById('c-place').textContent = c.event_location;
-      if(c.event_dates) document.getElementById('c-dates').textContent = c.event_dates;
-      document.getElementById('c-verifyurl').textContent = location.origin + '/verificar';
+      document.getElementById('c-verify').textContent = location.host + '/verificar';
       stateEl.style.display='none';
       document.getElementById('cert-wrap').style.display='block';
       document.getElementById('toolbar').style.display='flex';
       document.title = 'Certificado — ' + (c.full_name || code);
+      setTimeout(fitName, 60);
+      window.addEventListener('resize', fitName);
     })
     .catch(function(){ fail('No se pudo verificar el certificado en este momento. Intenta nuevamente en unos minutos.'); });
   })();

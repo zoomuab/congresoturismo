@@ -19,6 +19,7 @@ const publicFiles = [
   'recorridos.html',
   'verificar.html',
   'certificado.html',
+  'certificado-plantilla.jpg',
   'moxena-system.js',
   'admin-system.js'
 ];
