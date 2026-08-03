@@ -184,6 +184,18 @@
   .btn-primary:hover{ background:#b8891c; }
   .btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
   .price-in{ width:120px; padding:9px 12px; border-radius:8px; border:1px solid #E4D6AE; font-family:var(--sans); font-size:.9rem; }
+  .modal-overlay{ display:none; position:fixed; inset:0; z-index:80; background:rgba(8,24,19,.6); align-items:center; justify-content:center; padding:18px; }
+  .modal-overlay.show{ display:flex; }
+  .modal-card{ background:#fff; width:min(560px,100%); border-radius:20px; padding:28px; box-shadow:0 30px 70px rgba(0,0,0,.35); max-height:92vh; overflow-y:auto; }
+  .modal-card h3{ font-size:1.35rem; color:var(--jungle-dk); }
+  .modal-sub{ font-size:.86rem; color:#6b5b3e; margin:4px 0 18px; }
+  .mfield{ margin-bottom:14px; }
+  .mfield label{ display:block; font-size:.76rem; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--jungle-dk); margin-bottom:6px; }
+  .mfield input, .mfield select{ width:100%; padding:11px 13px; border-radius:10px; border:1px solid #E4D6AE; font-family:var(--sans); font-size:.92rem; background:#FDFAF0; }
+  .mrow{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:520px){ .mrow{ grid-template-columns:1fr; } }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:12px; margin-top:20px; }
+  .btn-ghost-admin{ background:none; border:1px solid #E4D6AE; color:var(--jungle-dk); border-radius:100px; padding:12px 22px; font-weight:700; font-size:.88rem; cursor:pointer; font-family:var(--sans); }
   .report-doc{ color:var(--ink); }
   .report-doc .rep-head{ display:flex; align-items:center; gap:16px; border-bottom:2px solid var(--gold); padding-bottom:16px; margin-bottom:22px; }
   .report-doc .rep-head img{ height:64px; width:auto; }
@@ -575,6 +587,30 @@
 
 <div class="toast" id="toast"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg><span id="toast-text">Listo</span></div>
 
+<!-- Modal: registro manual -->
+<div class="modal-overlay" id="manual-overlay">
+  <div class="modal-card">
+    <h3>Registro manual</h3>
+    <p class="modal-sub">Agrega un inscrito manualmente. El monto se calcula según la categoría y la fecha.</p>
+    <div class="mfield"><label>Nombre completo *</label><input type="text" id="m-name" placeholder="Nombre y apellidos"></div>
+    <div class="mrow">
+      <div class="mfield"><label>Carnet de identidad *</label><input type="text" id="m-carnet" placeholder="Ej. 1234567"></div>
+      <div class="mfield"><label>Celular / WhatsApp</label><input type="text" id="m-phone" placeholder="Ej. 72844056"></div>
+    </div>
+    <div class="mfield"><label>Correo (opcional)</label><input type="email" id="m-email" placeholder="correo@ejemplo.com"></div>
+    <div class="mfield"><label>Categoría</label>
+      <select id="m-cat"><option>Afiliado a CONALTUR</option><option>Profesional en Turismo</option><option>Externo</option></select>
+    </div>
+    <div class="mfield"><label>Institución (opcional)</label><input type="text" id="m-inst" placeholder="Institución"></div>
+    <p class="modal-sub" style="margin:0;">Se agrega como <b>pendiente</b>. Márcalo como pagado con el botón ✓ en la tabla.</p>
+    <p class="err" id="m-err" style="display:none; color:var(--brick); font-size:.82rem; margin:6px 0 0;"></p>
+    <div class="modal-actions">
+      <button class="btn-ghost-admin" id="m-cancel" type="button">Cancelar</button>
+      <button class="btn-primary" id="m-save" type="button">Guardar inscripción</button>
+    </div>
+  </div>
+</div>
+
 <script src="moxena-config.js"></script>
 <script>
   /* ---------- navigation ---------- */
@@ -642,9 +678,10 @@
   }
   async function pricingSave(){
     const status = document.getElementById('price-status'); const btn = document.getElementById('price-save');
-    const cfg = window.MOXENA_CONFIG||{}; const session = cmsSession();
+    const cfg = window.MOXENA_CONFIG||{};
     if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no configurado.'; return; }
-    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador.'; return; }
+    const token = await moxenaFreshToken();
+    if(!token){ status.textContent='Inicia sesión como administrador.'; return; }
     const content = { cutoff: (document.getElementById('price-cutoff').value || '2026-08-10') };
     PRICE_CATS.forEach(cat=>{
       content[cat] = { promo: Number(document.getElementById('price-'+cat+'-promo').value) || 0, regular: Number(document.getElementById('price-'+cat+'-regular').value) || 0 };
@@ -653,7 +690,7 @@
     try{
       const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?on_conflict=section_key`, {
         method:'POST',
-        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
         body: JSON.stringify({ section_key:'pricing', content })
       });
       if(!res.ok) throw new Error(await res.text());
@@ -702,18 +739,19 @@
   /* ---------- crear usuarios administradores (Edge Function) ---------- */
   document.getElementById('nu-create')?.addEventListener('click', async ()=>{
     const status = document.getElementById('nu-status'); const btn = document.getElementById('nu-create');
-    const cfg = window.MOXENA_CONFIG||{}; const session = cmsSession();
+    const cfg = window.MOXENA_CONFIG||{};
     const email = (document.getElementById('nu-email').value||'').trim();
     const pass = document.getElementById('nu-pass').value||'';
     if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no configurado.'; return; }
-    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador.'; return; }
     if(!email.includes('@')){ status.textContent='Ingresa un correo válido.'; return; }
     if(pass.length < 8){ status.textContent='La contraseña debe tener al menos 8 caracteres.'; return; }
+    const token = await moxenaFreshToken();
+    if(!token){ status.textContent='Inicia sesión como administrador.'; return; }
     btn.disabled=true; status.textContent='Creando…';
     try{
       const res = await fetch(`${cfg.supabaseUrl}/functions/v1/crear-usuario`, {
         method:'POST',
-        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json' },
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${token}`, 'Content-Type':'application/json' },
         body: JSON.stringify({ email, password: pass })
       });
       const payload = await res.json().catch(()=>({}));
@@ -846,19 +884,38 @@
     document.getElementById(id).addEventListener('change', renderTable);
   });
 
-  document.getElementById('add-manual').addEventListener('click', ()=>{
-    const name = prompt('Nombre completo del inscrito:');
-    if(!name) return;
-    const category = prompt('Categoría (Afiliado a CONALTUR / Profesional en Turismo / Externo):', 'Afiliado a CONALTUR') || 'Externo';
+  const manualOverlay = document.getElementById('manual-overlay');
+  function openManual(){
+    ['m-name','m-carnet','m-phone','m-email','m-inst'].forEach(id=> document.getElementById(id).value='');
+    document.getElementById('m-cat').value='Afiliado a CONALTUR';
+    document.getElementById('m-err').style.display='none';
+    manualOverlay.classList.add('show');
+    setTimeout(()=> document.getElementById('m-name').focus(), 50);
+  }
+  function closeManual(){ manualOverlay.classList.remove('show'); }
+  document.getElementById('add-manual').addEventListener('click', openManual);
+  document.getElementById('m-cancel').addEventListener('click', closeManual);
+  manualOverlay.addEventListener('click', (e)=>{ if(e.target===manualOverlay) closeManual(); });
+  document.getElementById('m-save').addEventListener('click', ()=>{
+    const name = document.getElementById('m-name').value.trim().replace(/\s+/g,' ');
+    const carnet = document.getElementById('m-carnet').value.trim().toUpperCase();
+    const phone = document.getElementById('m-phone').value.trim();
+    const email = document.getElementById('m-email').value.trim();
+    const inst = document.getElementById('m-inst').value.trim();
+    const category = document.getElementById('m-cat').value;
+    const err = document.getElementById('m-err');
+    if(name.length < 3){ err.textContent='Ingresa el nombre completo.'; err.style.display='block'; return; }
+    if(!carnet){ err.textContent='Ingresa el carnet de identidad.'; err.style.display='block'; return; }
     const p = CATEGORY_PRICES[category] || CATEGORY_PRICES['Externo'];
     const amount = isPromoActive() ? p.promo : p.regular;
     registrations.push({
       code: 'MOX-2026-' + Math.floor(1000+Math.random()*9000),
-      name, email:'', phone:'', institution:'', category, amount,
+      name, carnet, email, phone, institution:inst, category, amount,
       pricingType: isPromoActive()?'promocion':'regular',
       registeredAt: new Date().toISOString(), paymentStatus:'pendiente'
     });
-    renderTable(); renderStats(); toast('Inscripción agregada');
+    renderTable(); renderStats(); closeManual(); toast('Inscripción agregada');
+    if(window.moxenaSyncAll){ setTimeout(()=> window.moxenaSyncAll(), 0); }
   });
 
   document.getElementById('export-csv').addEventListener('click', ()=>{
@@ -925,6 +982,27 @@
   let cmsCurrent = {};
   function cmsTable(){ return (window.MOXENA_CONFIG && window.MOXENA_CONFIG.settingsTable) || 'congreso_site_content'; }
   function cmsSession(){ try{ return JSON.parse(localStorage.getItem('moxena_admin_session_v1')||'null'); }catch(_){ return null; } }
+  // Devuelve un access_token válido, renovándolo con el refresh_token si está por expirar.
+  async function moxenaFreshToken(){
+    const cfg = window.MOXENA_CONFIG||{}; const s = cmsSession();
+    if(!s || !s.access_token) return null;
+    const expMs = (function(t){ try{ return JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).exp*1000; }catch(_){ return 0; } })(s.access_token);
+    if(expMs && expMs > Date.now() + 60000) return s.access_token; // aún válido (>1 min)
+    if(!s.refresh_token || !cfg.supabaseUrl || !cfg.supabasePublishableKey) return s.access_token;
+    try{
+      const res = await fetch(`${cfg.supabaseUrl}/auth/v1/token?grant_type=refresh_token`, {
+        method:'POST', headers:{ apikey:cfg.supabasePublishableKey, 'Content-Type':'application/json' },
+        body: JSON.stringify({ refresh_token: s.refresh_token })
+      });
+      if(!res.ok) return s.access_token;
+      const p = await res.json();
+      if(!p.access_token) return s.access_token;
+      const ns = Object.assign({}, s, { access_token:p.access_token, refresh_token:p.refresh_token||s.refresh_token, user:p.user||s.user });
+      localStorage.setItem('moxena_admin_session_v1', JSON.stringify(ns));
+      return p.access_token;
+    }catch(_){ return s.access_token; }
+  }
+  window.moxenaFreshToken = moxenaFreshToken;
   function setPreview(key, url){
     const box = document.getElementById('prev-'+key); if(!box) return;
     if(url){ box.style.backgroundImage = `url("${url}")`; box.innerHTML=''; }
@@ -945,12 +1023,12 @@
   }
   async function cmsPersist(){
     const cfg = window.MOXENA_CONFIG||{};
-    const session = cmsSession();
     if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) throw new Error('Supabase no está configurado.');
-    if(!session || !session.access_token) throw new Error('Inicia sesión como administrador.');
+    const token = await moxenaFreshToken();
+    if(!token) throw new Error('Inicia sesión como administrador.');
     const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?on_conflict=section_key`, {
       method:'POST',
-      headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
+      headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
       body: JSON.stringify({ section_key:'landing', content: cmsCurrent })
     });
     if(!res.ok) throw new Error(await res.text());
@@ -966,9 +1044,9 @@
   async function cmsUpload(key, file){
     const cfg = window.MOXENA_CONFIG||{};
     const status = document.getElementById('cms-img-status');
-    const session = cmsSession();
     if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no está configurado.'; return; }
-    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador para subir imágenes.'; return; }
+    const token = await moxenaFreshToken();
+    if(!token){ status.textContent='Inicia sesión como administrador para subir imágenes.'; return; }
     if(file.size > 5*1024*1024){ status.textContent='La imagen supera 5 MB. Usa una más liviana.'; return; }
     const ext = (file.name.split('.').pop()||'png').toLowerCase().replace(/[^a-z0-9]/g,'') || 'png';
     const path = `${key}-${Date.now()}.${ext}`;
@@ -976,7 +1054,7 @@
     try{
       const up = await fetch(`${cfg.supabaseUrl}/storage/v1/object/sitio/${path}`, {
         method:'POST',
-        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':file.type||'application/octet-stream', 'x-upsert':'true' },
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${token}`, 'Content-Type':file.type||'application/octet-stream', 'x-upsert':'true' },
         body:file
       });
       if(!up.ok) throw new Error(await up.text());

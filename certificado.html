@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&family=Great+Vibes&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
     --gold:#C9971F; --gold-lt:#E8C878; --jungle-dk:#0E2620; --jungle-dker:#081813;
@@ -143,24 +144,21 @@
     })
     .catch(function(){ fail('No se pudo verificar el certificado en este momento. Intenta nuevamente en unos minutos.'); });
 
-    // Descargar el certificado como imagen (PC/Android) o compartir (iOS)
+    // Descargar el certificado como PDF (carta horizontal, 1 página) en cualquier dispositivo
     document.getElementById('cert-download').addEventListener('click', async function(){
       const btn = this; const sheet = document.getElementById('cert-sheet');
-      if(!window.html2canvas){ window.print(); return; }
-      const orig = btn.textContent; btn.disabled = true; btn.textContent = 'Generando…';
+      if(!window.html2canvas || !(window.jspdf && window.jspdf.jsPDF)){ window.print(); return; }
+      const orig = btn.textContent; btn.disabled = true; btn.textContent = 'Generando PDF…';
       try{
         const canvas = await html2canvas(sheet, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-        const blob = await new Promise(function(r){ canvas.toBlob(r, 'image/png'); });
         const nm = (document.getElementById('c-name').textContent || 'certificado').trim().replace(/\s+/g,'-');
-        const file = new File([blob], 'certificado-'+nm+'.png', { type:'image/png' });
-        const isIOS = /iP(hone|ad|od)/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-        if(isIOS && navigator.canShare && navigator.canShare({ files:[file] })){
-          await navigator.share({ files:[file], text:'Mi certificado — IX Congreso Nacional de Profesionales en Turismo' });
-        } else {
-          const url = URL.createObjectURL(file); const a = document.createElement('a'); a.href = url; a.download = file.name;
-          document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
-        }
-      }catch(e){ console.error(e); alert('No se pudo generar la imagen. Prueba con "Imprimir / PDF".'); }
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation:'landscape', unit:'pt', format:'letter' });
+        const pw = pdf.internal.pageSize.getWidth();
+        const ph = pdf.internal.pageSize.getHeight();
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.94), 'JPEG', 0, 0, pw, ph);
+        pdf.save('certificado-'+nm+'.pdf');
+      }catch(e){ console.error(e); alert('No se pudo generar el PDF. Prueba con "Imprimir / PDF".'); }
       finally{ btn.disabled = false; btn.textContent = orig; }
     });
   })();

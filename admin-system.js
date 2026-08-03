@@ -159,6 +159,8 @@
     const payload = registrations.map((record) => ({
       code: record.code,
       full_name: record.name,
+      identity_document: record.carnet || null,
+      name_confirmed: true,
       email: record.email || null,
       phone: record.phone || null,
       institution: record.institution || null,
@@ -174,6 +176,7 @@
       body: JSON.stringify(payload)
     });
   }
+  window.moxenaSyncAll = function(){ syncAll().then(()=> refresh()).catch((e)=>{ console.error(e); toast('Guardado localmente; falta sincronizar'); }); };
 
   async function request(path, options = {}) {
     const session = getSession();
@@ -181,11 +184,16 @@
       showLogin();
       throw new Error('Se requiere iniciar sesión');
     }
+    // Renueva el token si está por expirar (evita "guardado localmente sin sincronizar")
+    let token = session?.access_token;
+    if (remoteEnabled && window.moxenaFreshToken) {
+      try { token = (await window.moxenaFreshToken()) || token; } catch (_) {}
+    }
     const response = await fetch(`${cfg.supabaseUrl}/rest/v1/${path}`, {
       ...options,
       headers: {
         apikey: cfg.supabasePublishableKey,
-        Authorization: `Bearer ${session?.access_token || cfg.supabasePublishableKey}`,
+        Authorization: `Bearer ${token || cfg.supabasePublishableKey}`,
         'Content-Type': 'application/json',
         ...(options.headers || {})
       }
@@ -219,6 +227,13 @@
   document.getElementById('reg-tbody').addEventListener('click', async (event) => {
     const button = event.target.closest('button');
     if (!button) return;
+    if (button.dataset.action === 'delete') {
+      const nombre = button.closest('tr')?.children?.[1]?.textContent?.trim() || 'esta inscripción';
+      if (!window.confirm('¿Eliminar a ' + nombre + '?\n\nEsta acción no se puede deshacer.')) {
+        event.stopImmediatePropagation();
+        return;
+      }
+    }
     setTimeout(async () => {
       writeLocal();
       if (!remoteEnabled) return;

@@ -53,7 +53,7 @@
 </style>
 </head>
 <body>
-  <nav class="nav"><div class="wrap"><a class="brand" href="/"><span class="mark">M</span><span>Congreso Moxeña</span></a></div></nav>
+  <nav class="nav"><div class="wrap"><a class="brand" href="/"><span class="mark" data-brandlogo>M</span><span data-brandtitle>Congreso Moxeña</span></a></div></nav>
   <main>
     <div class="wrap">
       <div class="card">
@@ -148,6 +148,19 @@
     });
 
     if(pre){ form.requestSubmit(); }
+
+    // Marca (logo + título) desde el CMS
+    (function(){
+      if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) return;
+      const tbl = cfg.settingsTable || 'congreso_site_content';
+      fetch(`${cfg.supabaseUrl}/rest/v1/${tbl}?section_key=eq.landing&select=content`, {
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}` }
+      }).then(r=> r.ok ? r.json() : []).then(rows=>{
+        const c = (rows[0] && rows[0].content) || {};
+        if(c.site_title){ document.querySelectorAll('[data-brandtitle]').forEach(el=> el.textContent = c.site_title); }
+        if(c.img_logo){ document.querySelectorAll('[data-brandlogo]').forEach(el=>{ el.textContent=''; el.style.background='url("'+c.img_logo+'") center/cover no-repeat'; }); }
+      }).catch(()=>{});
+    })();
   })();
 </script>
 </body>
