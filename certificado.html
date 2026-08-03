@@ -40,8 +40,10 @@
   }
   /* Código de verificación — pie */
   .cert-code{
-    position:absolute; bottom:1%; left:0; right:0; text-align:center; white-space:nowrap;
-    font-family:var(--sans); font-size:clamp(.38rem,.9vw,.66rem); color:#6b5b3e; letter-spacing:.04em; z-index:2;
+    position:absolute; bottom:1.4%; left:50%; transform:translateX(-50%); white-space:nowrap;
+    background:rgba(255,253,247,.92); border:1px solid rgba(201,151,31,.55); border-radius:100px;
+    padding:3px 14px; font-family:var(--sans); font-size:clamp(.42rem,.95vw,.7rem); color:#3f3320;
+    letter-spacing:.03em; z-index:3; box-shadow:0 2px 8px rgba(0,0,0,.12);
   }
   .cert-code b{ color:#7C2E1B; }
 
@@ -113,6 +115,7 @@
         var nameEl = document.getElementById('c-name');
         if(c.cert_name_top){ nameEl.style.top = parseFloat(c.cert_name_top) + '%'; }
         if(c.cert_name_color){ nameEl.style.color = c.cert_name_color; }
+        if(c.cert_code_top){ var cc = document.querySelector('.cert-code'); cc.style.top = parseFloat(c.cert_code_top) + '%'; cc.style.bottom = 'auto'; }
       })
       .catch(function(){ document.getElementById('cert-bg').src = DEFAULT_TEMPLATE; });
 
