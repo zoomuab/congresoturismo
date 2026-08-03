@@ -6,6 +6,7 @@
 <title>Certificado — IX Congreso Nacional de Profesionales en Turismo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700&family=Great+Vibes&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
     --gold:#C9971F; --gold-lt:#E8C878; --jungle-dk:#0E2620; --jungle-dker:#081813;
@@ -40,7 +41,7 @@
   }
   /* Código de verificación — pie */
   .cert-code{
-    position:absolute; bottom:1.4%; left:50%; transform:translateX(-50%); white-space:nowrap;
+    position:absolute; top:2.4%; right:3%; white-space:nowrap;
     background:rgba(255,253,247,.92); border:1px solid rgba(201,151,31,.55); border-radius:100px;
     padding:3px 14px; font-family:var(--sans); font-size:clamp(.42rem,.95vw,.7rem); color:#3f3320;
     letter-spacing:.03em; z-index:3; box-shadow:0 2px 8px rgba(0,0,0,.12);
@@ -49,18 +50,20 @@
 
   @media print{
     @page{ size: letter landscape; margin:0; }
-    html,body{ background:#fff; padding:0; margin:0; }
+    html,body{ background:#fff !important; padding:0 !important; margin:0 !important; }
+    body{ display:block !important; }
     .toolbar,.state{ display:none !important; }
-    .cert-wrap{ max-width:none; width:100%; }
-    .cert{ width:100vw; height:100vh; aspect-ratio:auto; border-radius:0; box-shadow:none;
+    .cert-wrap{ max-width:none !important; width:100% !important; margin:0 !important; }
+    .cert{ width:100% !important; height:auto !important; aspect-ratio:2200 / 1702 !important; border-radius:0 !important; box-shadow:none !important;
       -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-    .cert-bg{ object-fit:cover; }
+    .cert-bg{ object-fit:fill !important; }
   }
 </style>
 </head>
 <body>
   <div class="toolbar" id="toolbar" style="display:none;">
-    <button class="btn btn-gold" onclick="window.print()">Imprimir / Guardar PDF</button>
+    <button class="btn btn-gold" id="cert-download" type="button">Descargar certificado</button>
+    <button class="btn btn-ghost" onclick="window.print()">Imprimir / PDF</button>
     <a class="btn btn-ghost" href="/verificar">Verificar otro código</a>
   </div>
 
@@ -68,7 +71,7 @@
 
   <div class="cert-wrap" id="cert-wrap" style="display:none;">
     <div class="cert" id="cert-sheet">
-      <img class="cert-bg" id="cert-bg" alt="Certificado de participación">
+      <img class="cert-bg" id="cert-bg" alt="Certificado de participación" crossorigin="anonymous">
       <div class="cert-name" id="c-name">—</div>
       <div class="cert-code">Código: <b id="c-code">—</b></div>
     </div>
@@ -139,6 +142,27 @@
       window.addEventListener('resize', fitName);
     })
     .catch(function(){ fail('No se pudo verificar el certificado en este momento. Intenta nuevamente en unos minutos.'); });
+
+    // Descargar el certificado como imagen (PC/Android) o compartir (iOS)
+    document.getElementById('cert-download').addEventListener('click', async function(){
+      const btn = this; const sheet = document.getElementById('cert-sheet');
+      if(!window.html2canvas){ window.print(); return; }
+      const orig = btn.textContent; btn.disabled = true; btn.textContent = 'Generando…';
+      try{
+        const canvas = await html2canvas(sheet, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+        const blob = await new Promise(function(r){ canvas.toBlob(r, 'image/png'); });
+        const nm = (document.getElementById('c-name').textContent || 'certificado').trim().replace(/\s+/g,'-');
+        const file = new File([blob], 'certificado-'+nm+'.png', { type:'image/png' });
+        const isIOS = /iP(hone|ad|od)/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        if(isIOS && navigator.canShare && navigator.canShare({ files:[file] })){
+          await navigator.share({ files:[file], text:'Mi certificado — IX Congreso Nacional de Profesionales en Turismo' });
+        } else {
+          const url = URL.createObjectURL(file); const a = document.createElement('a'); a.href = url; a.download = file.name;
+          document.body.appendChild(a); a.click(); document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+        }
+      }catch(e){ console.error(e); alert('No se pudo generar la imagen. Prueba con "Imprimir / PDF".'); }
+      finally{ btn.disabled = false; btn.textContent = orig; }
+    });
   })();
 </script>
 </body>

@@ -250,8 +250,12 @@
       </a>
     </nav>
     <div class="side-foot">
+      <button id="btn-logout" type="button" style="width:100%; display:flex; align-items:center; gap:10px; justify-content:center; background:rgba(162,67,42,.25); border:1px solid rgba(232,200,120,.3); color:#fff; padding:11px; border-radius:12px; font-weight:700; font-size:.84rem; margin-bottom:16px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Cerrar sesión
+      </button>
       Panel de administración del congreso.<br>
-      Ver landing pública: <a href="moxena-congreso-v2.html">moxena-congreso-v2.html</a>
+      Ver landing pública: <a href="/">congresoturismo.vercel.app</a>
     </div>
   </aside>
 
@@ -321,7 +325,7 @@
         <span class="badge-demo">Modo local</span>
       </div>
 
-      <div class="panel">
+      <div class="panel" style="display:none;">
         <div class="panel-head">
           <div><h2>Importar comprobantes</h2><p>Sube el archivo JSON descargado desde el comprobante de la landing pública.</p></div>
         </div>
@@ -457,6 +461,7 @@
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_hero_bg"><span>Sin imagen</span></div><div class="cms-img-info"><label>Foto de fondo del hero</label><input type="file" accept="image/*" data-imgkey="img_hero_bg" class="cms-file"><p class="cms-hint">Horizontal, mínimo 1600px de ancho.</p></div></div>
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_qr"><span>Sin imagen</span></div><div class="cms-img-info"><label>QR de pago</label><input type="file" accept="image/*" data-imgkey="img_qr" class="cms-file"><p class="cms-hint">Imagen del QR bancario.</p></div></div>
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_cert_template"><span>Sin imagen</span></div><div class="cms-img-info"><label>Plantilla del certificado</label><input type="file" accept="image/*" data-imgkey="img_cert_template" class="cms-file"><p class="cms-hint">Fondo del certificado. Solo se superpone el nombre y el código.</p></div></div>
+            <div class="cms-img"><div class="cms-img-preview" id="prev-img_favicon"><span>Sin imagen</span></div><div class="cms-img-info"><label>Favicon (ícono de la pestaña)</label><input type="file" accept="image/*" data-imgkey="img_favicon" class="cms-file"><p class="cms-hint">Cuadrado, PNG. Aparece en la pestaña del navegador.</p></div></div>
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_1"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 1 — Loreto</label><input type="file" accept="image/*" data-imgkey="img_city_1" class="cms-file"><p class="cms-hint">Foto de la misión de Loreto.</p></div></div>
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_2"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 2 — Santísima Trinidad</label><input type="file" accept="image/*" data-imgkey="img_city_2" class="cms-file"><p class="cms-hint">Foto de Trinidad.</p></div></div>
             <div class="cms-img"><div class="cms-img-preview" id="prev-img_city_3"><span>Sin imagen</span></div><div class="cms-img-info"><label>Ciudad 3 — San Ignacio de Moxos</label><input type="file" accept="image/*" data-imgkey="img_city_3" class="cms-file"><p class="cms-hint">Foto de San Ignacio.</p></div></div>
@@ -526,6 +531,12 @@
   function closeMenu(){ adminSide.classList.remove('open'); sideOverlay.classList.remove('show'); adminBurger.classList.remove('x'); }
   adminBurger?.addEventListener('click', ()=>{ adminSide.classList.contains('open') ? closeMenu() : openMenu(); });
   sideOverlay?.addEventListener('click', closeMenu);
+
+  /* ---------- cerrar sesion ---------- */
+  document.getElementById('btn-logout')?.addEventListener('click', ()=>{
+    try{ localStorage.removeItem('moxena_admin_session_v1'); }catch(_){}
+    location.reload();
+  });
 
   document.querySelectorAll('.nav-link').forEach(a=>{
     a.addEventListener('click', (e)=>{ e.preventDefault(); showView(a.dataset.view); closeMenu(); });
@@ -759,7 +770,7 @@
 
   /* ---------- CMS: contenido editable del sitio (textos + imagenes) ---------- */
   const CMS_KEYS = ['site_title','hero_title_main','hero_title_sub','hero_dates','hero_place','hero_missions','bank_name','bank_titular','bank_account','bank_glosa','cert_name_top','cert_code_top'];
-  const CMS_IMG_KEYS = ['img_logo','img_medallion','img_hero_bg','img_qr','img_cert_template','img_city_1','img_city_2','img_city_3'];
+  const CMS_IMG_KEYS = ['img_logo','img_medallion','img_hero_bg','img_qr','img_cert_template','img_favicon','img_city_1','img_city_2','img_city_3'];
   let cmsCurrent = {};
   function cmsTable(){ return (window.MOXENA_CONFIG && window.MOXENA_CONFIG.settingsTable) || 'congreso_site_content'; }
   function cmsSession(){ try{ return JSON.parse(localStorage.getItem('moxena_admin_session_v1')||'null'); }catch(_){ return null; } }

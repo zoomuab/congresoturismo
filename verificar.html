@@ -58,10 +58,10 @@
     <div class="wrap">
       <div class="card">
         <p class="eyebrow">Certificación oficial</p>
-        <h1>Verifica un certificado</h1>
-        <p class="lead">Ingresa el código de verificación que aparece en el certificado para confirmar su autenticidad.</p>
+        <h1>Verifica o descarga tu certificado</h1>
+        <p class="lead">Ingresa el <b>código</b> del certificado o tu <b>carnet de identidad</b>. Si tu certificado ya fue emitido, podrás verlo y descargarlo.</p>
         <form id="verify-form">
-          <input id="code" type="text" placeholder="Ej. MOX-CERT-2026-0001" autocomplete="off" required>
+          <input id="code" type="text" placeholder="Código MOX-CERT-… o tu carnet (ej. 1234567)" autocomplete="off" required>
           <button class="btn" id="btn" type="submit">Verificar</button>
         </form>
         <div class="result" id="result"></div>
@@ -123,16 +123,21 @@
         resultEl.innerHTML = '<div class="invalid"><div class="tag">Servicio no disponible</div><p style="margin:10px 0 0;color:#F0DCD5;">Intenta más tarde.</p></div>';
         return;
       }
-      btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Verificando…';
-      try{
-        const res = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/verify_congreso_certificate`, {
+      btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Buscando…';
+      const rpc = async (name, body)=>{
+        const res = await fetch(`${cfg.supabaseUrl}/rest/v1/rpc/${name}`, {
           method:'POST',
           headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}`, 'Content-Type':'application/json' },
-          body: JSON.stringify({ p_code: code })
+          body: JSON.stringify(body)
         });
         if(!res.ok) throw new Error('http '+res.status);
         const rows = await res.json();
-        const c = Array.isArray(rows) ? rows[0] : rows;
+        return Array.isArray(rows) ? rows[0] : rows;
+      };
+      try{
+        // 1) intenta por código; 2) si no, por carnet de identidad
+        let c = await rpc('verify_congreso_certificate', { p_code: code });
+        if(!(c && c.full_name)){ c = await rpc('certificado_por_documento', { p_doc: code }); }
         if(c && c.full_name) showValid(c); else showInvalid(code);
       }catch(_){
         resultEl.className='result show';
