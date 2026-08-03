@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   :root{
     --cream: #F2E9D3;
@@ -846,7 +847,7 @@
           Enviar por WhatsApp
         </a>
         <button class="btn btn-ghost" style="border-color:var(--gold-lt); color:var(--gold-lt);" id="ticket-print" type="button">Imprimir / Guardar PDF</button>
-        <button class="btn btn-ghost" style="border-color:var(--gold-lt); color:var(--gold-lt);" id="ticket-download" type="button">Descargar registro (JSON)</button>
+        <button class="btn btn-ghost" style="border-color:var(--gold-lt); color:var(--gold-lt);" id="ticket-download" type="button">Descargar comprobante (imagen)</button>
         <button class="btn btn-outline-jungle" style="border-color:rgba(255,255,255,.4); color:#fff;" id="ticket-back" type="button">← Editar mis datos</button>
       </div>
     </div>
@@ -1128,14 +1129,21 @@
     document.getElementById('reg-step-1').style.display = 'grid';
   });
   document.getElementById('ticket-print').addEventListener('click', ()=> window.print());
-  document.getElementById('ticket-download').addEventListener('click', ()=>{
-    if(!window.__lastRegistration) return;
-    const blob = new Blob([JSON.stringify(window.__lastRegistration, null, 2)], {type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = `registro-${window.__lastRegistration.code}.json`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+  document.getElementById('ticket-download').addEventListener('click', async ()=>{
+    const card = document.querySelector('.ticket-card');
+    const btn = document.getElementById('ticket-download');
+    if(!card) return;
+    if(!window.html2canvas){ alert('No se pudo preparar la imagen. Usa "Imprimir / Guardar PDF".'); return; }
+    const orig = btn.textContent; btn.disabled = true; btn.textContent = 'Generando imagen…';
+    try{
+      const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#0E2620', useCORS: true });
+      const link = document.createElement('a');
+      const code = (window.__lastRegistration && window.__lastRegistration.code) || 'moxena';
+      link.download = `comprobante-${code}.png`;
+      link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    }catch(e){ console.error(e); alert('No se pudo generar la imagen. Usa "Imprimir / Guardar PDF".'); }
+    finally{ btn.disabled = false; btn.textContent = orig; }
   });
 
   /* ---------- contenido editable desde el admin (CMS) ---------- */
