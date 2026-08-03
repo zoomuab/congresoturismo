@@ -219,8 +219,8 @@
 <nav class="nav">
   <div class="wrap">
     <a class="brand" href="/">
-      <span class="brand-mark">M</span>
-      <span>Moxeña 2026</span>
+      <span class="brand-mark" data-brandlogo>M</span>
+      <span data-brandtitle>Congreso Moxeña</span>
     </a>
     <button class="burger" aria-label="Abrir menú" aria-expanded="false" id="burger">
       <span></span><span></span><span></span>
@@ -431,7 +431,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-brand"><span class="brand-mark">M</span><span>Moxeña 2026</span></div>
+        <div class="foot-brand"><span class="brand-mark" data-brandlogo>M</span><span data-brandtitle>Congreso Moxeña</span></div>
         <p>IX Congreso Nacional de Profesionales en Turismo · Santísima Trinidad, Beni — 3, 4 y 5 de septiembre de 2026. Organizan el Colegio de Profesionales en Turismo del Beni (CPTB) y el Colegio Nacional de Profesionales en Turismo (CONALTUR).</p>
       </div>
       <div>
@@ -498,6 +498,21 @@
       entries.forEach(function(en){ if(en.isIntersecting){ run(en.target); io.unobserve(en.target); } });
     }, { threshold:.4 });
     nums.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+<script src="moxena-config.js"></script>
+<script>
+  (function(){
+    var cfg = window.MOXENA_CONFIG || {};
+    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) return;
+    var tbl = cfg.settingsTable || 'congreso_site_content';
+    fetch(cfg.supabaseUrl+'/rest/v1/'+tbl+'?section_key=eq.landing&select=content', {
+      headers:{ apikey:cfg.supabasePublishableKey, Authorization:'Bearer '+cfg.supabasePublishableKey }
+    }).then(function(r){ return r.ok ? r.json() : []; }).then(function(rows){
+      var c = (rows[0] && rows[0].content) || {};
+      if(c.site_title){ document.querySelectorAll('[data-brandtitle]').forEach(function(el){ el.textContent = c.site_title; }); }
+      if(c.img_logo){ document.querySelectorAll('[data-brandlogo]').forEach(function(el){ el.textContent=''; el.style.background='url("'+c.img_logo+'") center/cover no-repeat'; el.style.boxShadow='none'; }); }
+    }).catch(function(){});
   })();
 </script>
 </body>
