@@ -183,6 +183,34 @@
   .btn-primary{ background:var(--gold); color:var(--jungle-dk); border:none; border-radius:100px; padding:13px 26px; font-weight:800; font-size:.9rem; cursor:pointer; font-family:var(--sans); }
   .btn-primary:hover{ background:#b8891c; }
   .btn-primary:disabled{ opacity:.6; cursor:not-allowed; }
+  .price-in{ width:120px; padding:9px 12px; border-radius:8px; border:1px solid #E4D6AE; font-family:var(--sans); font-size:.9rem; }
+  .report-doc{ color:var(--ink); }
+  .report-doc .rep-head{ display:flex; align-items:center; gap:16px; border-bottom:2px solid var(--gold); padding-bottom:16px; margin-bottom:22px; }
+  .report-doc .rep-head img{ height:64px; width:auto; }
+  .report-doc .rep-head h2{ font-size:1.3rem; }
+  .report-doc .rep-head p{ margin:4px 0 0; font-size:.82rem; color:#6b5b3e; }
+  .report-doc .rep-cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px; }
+  @media (max-width:640px){ .report-doc .rep-cards{ grid-template-columns:1fr 1fr; } }
+  .report-doc .rep-card{ border:1px solid #EFE2BC; border-radius:14px; padding:16px; background:#FDFAF0; }
+  .report-doc .rep-card b{ font-family:var(--serif); font-size:1.6rem; color:var(--jungle-dk); display:block; }
+  .report-doc .rep-card span{ font-size:.76rem; color:#6b5b3e; text-transform:uppercase; letter-spacing:.04em; }
+  .report-doc h3{ font-size:1.05rem; margin:22px 0 10px; color:var(--jungle-dk); }
+  .report-doc .rep-table{ width:100%; border-collapse:collapse; font-size:.84rem; }
+  .report-doc .rep-table th{ text-align:left; background:var(--cream-2); padding:9px 12px; color:var(--jungle-dk); }
+  .report-doc .rep-table td{ padding:9px 12px; border-bottom:1px solid #F1E6C8; }
+  .report-doc .rep-foot{ margin-top:20px; font-size:.78rem; color:#6b5b3e; text-align:center; }
+  @media print{
+    @page{ size: letter; margin:12mm; }
+    .admin-mbar, .side-overlay, .side, #report-print{ display:none !important; }
+    .shell{ display:block !important; }
+    .main{ padding:0 !important; }
+    .main > *{ display:none !important; }
+    #view-reporte{ display:block !important; }
+    #view-reporte .topbar{ display:none !important; }
+    #view-reporte .panel{ box-shadow:none !important; border:none !important; }
+    #view-reporte .panel-body{ padding:0 !important; overflow:visible !important; }
+    .report-doc .rep-card{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
   .cms-imgs{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
   @media (max-width:820px){ .cms-imgs{ grid-template-columns:1fr; } }
   .cms-img{ display:flex; gap:14px; align-items:center; border:1px solid #EFE2BC; border-radius:14px; padding:14px; background:#FDFAF0; }
@@ -239,6 +267,10 @@
       <a href="#misiones" class="nav-link" data-view="misiones">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21c0-4 4-6 9-6s9 2 9 6M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>
         Misiones y rutas
+      </a>
+      <a href="#reporte" class="nav-link" data-view="reporte">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 13h6M9 17h6M9 9h2"/></svg>
+        Reporte
       </a>
       <a href="#contenido" class="nav-link" data-view="contenido">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h10"/><path d="M15.5 17.5l2 2 4-4"/></svg>
@@ -377,11 +409,21 @@
         <div><h1>Categorías y precios</h1><p>La promoción se aplica automáticamente hasta la fecha límite configurada.</p></div>
       </div>
       <div class="panel">
+        <div class="panel-head"><div><h2>Precios por categoría</h2><p>Edita y guarda. Se aplica en la landing pública y en el monto cobrado.</p></div></div>
         <div class="panel-body">
+          <div class="cms-field" style="max-width:280px;"><label>Fecha límite de la promoción</label><input type="date" id="price-cutoff"></div>
           <table>
-            <thead><tr><th>Categoría</th><th>Precio promoción</th><th>Precio regular</th><th>Vigente hoy</th></tr></thead>
-            <tbody id="price-tbody"></tbody>
+            <thead><tr><th>Categoría</th><th>Promoción (Bs)</th><th>Regular (Bs)</th></tr></thead>
+            <tbody>
+              <tr><td><b>Afiliado a CONALTUR</b></td><td><input type="number" class="price-in" id="price-Afiliado a CONALTUR-promo" min="0"></td><td><input type="number" class="price-in" id="price-Afiliado a CONALTUR-regular" min="0"></td></tr>
+              <tr><td><b>Profesional en Turismo</b></td><td><input type="number" class="price-in" id="price-Profesional en Turismo-promo" min="0"></td><td><input type="number" class="price-in" id="price-Profesional en Turismo-regular" min="0"></td></tr>
+              <tr><td><b>Externo</b></td><td><input type="number" class="price-in" id="price-Externo-promo" min="0"></td><td><input type="number" class="price-in" id="price-Externo-regular" min="0"></td></tr>
+            </tbody>
           </table>
+          <div style="display:flex; align-items:center; gap:14px; margin-top:16px;">
+            <button class="btn-primary" id="price-save" type="button">Guardar precios</button>
+            <span id="price-status" style="font-size:.86rem; color:#4A3B26;"></span>
+          </div>
         </div>
       </div>
       <div class="panel">
@@ -420,6 +462,15 @@
           </table>
         </div>
       </div>
+    </section>
+
+    <!-- ===================== REPORTE ===================== -->
+    <section class="view" id="view-reporte" style="display:none;">
+      <div class="topbar">
+        <div><h1>Reporte de inscripciones</h1><p>Resumen general y por categoría. Imprime o guarda en PDF (tamaño carta).</p></div>
+        <button class="btn-primary" id="report-print" type="button">Imprimir / Guardar PDF</button>
+      </div>
+      <div class="panel"><div class="panel-body"><div id="report-doc" class="report-doc"></div></div></div>
     </section>
 
     <!-- ===================== CONTENIDO DEL SITIO ===================== -->
@@ -501,6 +552,17 @@
         </div>
       </div>
       <div class="panel">
+        <div class="panel-head"><div><h2>Usuarios administradores</h2><p>Crea nuevos usuarios con acceso al panel. Podrán ingresar con su correo y contraseña.</p></div></div>
+        <div class="panel-body">
+          <div class="cms-field" style="max-width:420px;"><label>Correo del nuevo administrador</label><input type="email" id="nu-email" placeholder="nombre@ejemplo.com"></div>
+          <div class="cms-field" style="max-width:420px;"><label>Contraseña (mínimo 8 caracteres)</label><input type="text" id="nu-pass" placeholder="Contraseña temporal"></div>
+          <div style="display:flex; align-items:center; gap:14px; margin-top:6px;">
+            <button class="btn-primary" id="nu-create" type="button">Crear usuario administrador</button>
+            <span id="nu-status" style="font-size:.86rem; color:#4A3B26;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
         <div class="panel-head"><div><h2>Sincronización del sistema</h2><p>Persistencia y actualización automática de la landing pública</p></div></div>
         <div class="panel-body" style="font-size:.88rem; color:#4A3B26; line-height:1.7;">
           El sistema guarda las inscripciones automáticamente en el navegador y puede conectarse a Supabase para compartir los datos entre dispositivos, proteger el panel con un usuario administrador y mantener los estados de pago actualizados.
@@ -516,12 +578,13 @@
 <script src="moxena-config.js"></script>
 <script>
   /* ---------- navigation ---------- */
-  const views = ['dashboard','inscripciones','precios','misiones','contenido','configuracion'];
+  const views = ['dashboard','inscripciones','precios','misiones','reporte','contenido','configuracion'];
   function showView(v){
     views.forEach(name=>{
       document.getElementById('view-'+name).style.display = (name===v) ? 'block' : 'none';
     });
     document.querySelectorAll('.nav-link').forEach(a=> a.classList.toggle('active', a.dataset.view===v));
+    if(v==='reporte'){ try{ renderReport(); }catch(_){} }
   }
   /* ---------- menu movil (hamburguesa) ---------- */
   const adminSide = document.getElementById('admin-side');
@@ -562,17 +625,105 @@
   let GOAL = 220;
   function isPromoActive(){ return Date.now() <= PROMO_CUTOFF; }
 
-  function renderPriceTable(){
-    const tb = document.getElementById('price-tbody');
-    tb.innerHTML = '';
-    Object.entries(CATEGORY_PRICES).forEach(([cat,p])=>{
-      const vigente = isPromoActive() ? p.promo : p.regular;
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td><b>${cat}</b></td><td>${p.promo} Bs</td><td>${p.regular} Bs</td>
-        <td><span class="tag ${isPromoActive()?'pagado':'pendiente'}">${vigente} Bs — ${isPromoActive()?'promoción':'regular'}</span></td>`;
-      tb.appendChild(tr);
-    });
+  function renderPriceTable(){ /* precios ahora son editables; ver pricingLoad/pricingSave */ }
+  const PRICE_CATS = ['Afiliado a CONALTUR','Profesional en Turismo','Externo'];
+  async function pricingLoad(){
+    const cfg = window.MOXENA_CONFIG||{}; if(!cfg.supabaseUrl || !cfg.supabasePublishableKey) return;
+    try{
+      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?section_key=eq.pricing&select=content`, { headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${cfg.supabasePublishableKey}` } });
+      if(!res.ok) return; const rows = await res.json(); const c = (rows[0] && rows[0].content) || {};
+      const cut = document.getElementById('price-cutoff'); if(cut && c.cutoff) cut.value = c.cutoff;
+      PRICE_CATS.forEach(cat=>{
+        const p = c[cat] || {};
+        const pe = document.getElementById('price-'+cat+'-promo'); if(pe && p.promo!=null) pe.value = p.promo;
+        const re = document.getElementById('price-'+cat+'-regular'); if(re && p.regular!=null) re.value = p.regular;
+      });
+    }catch(_){}
   }
+  async function pricingSave(){
+    const status = document.getElementById('price-status'); const btn = document.getElementById('price-save');
+    const cfg = window.MOXENA_CONFIG||{}; const session = cmsSession();
+    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no configurado.'; return; }
+    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador.'; return; }
+    const content = { cutoff: (document.getElementById('price-cutoff').value || '2026-08-10') };
+    PRICE_CATS.forEach(cat=>{
+      content[cat] = { promo: Number(document.getElementById('price-'+cat+'-promo').value) || 0, regular: Number(document.getElementById('price-'+cat+'-regular').value) || 0 };
+    });
+    btn.disabled = true; status.textContent = 'Guardando…';
+    try{
+      const res = await fetch(`${cfg.supabaseUrl}/rest/v1/${cmsTable()}?on_conflict=section_key`, {
+        method:'POST',
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json', Prefer:'resolution=merge-duplicates,return=minimal' },
+        body: JSON.stringify({ section_key:'pricing', content })
+      });
+      if(!res.ok) throw new Error(await res.text());
+      status.textContent = '✓ Precios guardados. Se aplican en la landing y en el cobro.';
+      toast('Precios actualizados');
+    }catch(e){ status.textContent = 'No se pudo guardar: ' + (e.message||e); }
+    finally{ btn.disabled = false; }
+  }
+  document.getElementById('price-save')?.addEventListener('click', pricingSave);
+
+  /* ---------- reporte imprimible ---------- */
+  function money(n){ return (Number(n)||0).toLocaleString('es-BO') + ' Bs'; }
+  function renderReport(){
+    const doc = document.getElementById('report-doc'); if(!doc) return;
+    const total = registrations.length;
+    const pagados = registrations.filter(r=> r.paymentStatus==='pagado');
+    const pend = registrations.filter(r=> r.paymentStatus==='pendiente');
+    const recaudado = pagados.reduce((s,r)=> s + (Number(r.amount)||0), 0);
+    const cats = ['Afiliado a CONALTUR','Profesional en Turismo','Externo'];
+    const esc = (s)=> String(s==null?'':s).replace(/[&<>]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+    const catRows = cats.map(cat=>{
+      const rs = registrations.filter(r=> r.category===cat);
+      const pg = rs.filter(r=> r.paymentStatus==='pagado');
+      return `<tr><td><b>${esc(cat)}</b></td><td>${rs.length}</td><td>${pg.length}</td><td>${rs.length-pg.length}</td><td>${money(pg.reduce((s,r)=>s+(Number(r.amount)||0),0))}</td></tr>`;
+    }).join('');
+    const detail = registrations.slice().reverse().map(r=>`<tr><td>${esc(r.code)}</td><td>${esc(r.name)}</td><td>${esc(r.category)}</td><td>${esc(r.paymentStatus)}</td><td>${money(r.amount)}</td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:#8a7a54;">Sin inscripciones aún</td></tr>';
+    doc.innerHTML = `
+      <div class="rep-head">
+        ${ window.__cmsLogo ? `<img src="${window.__cmsLogo}" alt="" onerror="this.style.display='none'">` : '' }
+        <div><h2>IX Congreso Nacional de Profesionales en Turismo</h2><p>Reporte de inscripciones · Generado el ${new Date().toLocaleString('es-BO')}</p></div>
+      </div>
+      <div class="rep-cards">
+        <div class="rep-card"><b>${total}</b><span>Inscritos</span></div>
+        <div class="rep-card"><b>${pagados.length}</b><span>Pagados</span></div>
+        <div class="rep-card"><b>${pend.length}</b><span>Pendientes</span></div>
+        <div class="rep-card"><b>${money(recaudado)}</b><span>Recaudado</span></div>
+      </div>
+      <h3>Por categoría</h3>
+      <table class="rep-table"><thead><tr><th>Categoría</th><th>Inscritos</th><th>Pagados</th><th>Pendientes</th><th>Recaudado</th></tr></thead><tbody>${catRows}</tbody></table>
+      <h3>Detalle de inscripciones</h3>
+      <table class="rep-table"><thead><tr><th>Código</th><th>Nombre</th><th>Categoría</th><th>Estado</th><th>Monto</th></tr></thead><tbody>${detail}</tbody></table>
+      <p class="rep-foot">Trinidad, Beni — 3, 4 y 5 de septiembre de 2026 · Organizan CPTB y CONALTUR</p>`;
+  }
+  document.getElementById('report-print')?.addEventListener('click', ()=> window.print());
+
+  /* ---------- crear usuarios administradores (Edge Function) ---------- */
+  document.getElementById('nu-create')?.addEventListener('click', async ()=>{
+    const status = document.getElementById('nu-status'); const btn = document.getElementById('nu-create');
+    const cfg = window.MOXENA_CONFIG||{}; const session = cmsSession();
+    const email = (document.getElementById('nu-email').value||'').trim();
+    const pass = document.getElementById('nu-pass').value||'';
+    if(!cfg.supabaseUrl || !cfg.supabasePublishableKey){ status.textContent='Supabase no configurado.'; return; }
+    if(!session || !session.access_token){ status.textContent='Inicia sesión como administrador.'; return; }
+    if(!email.includes('@')){ status.textContent='Ingresa un correo válido.'; return; }
+    if(pass.length < 8){ status.textContent='La contraseña debe tener al menos 8 caracteres.'; return; }
+    btn.disabled=true; status.textContent='Creando…';
+    try{
+      const res = await fetch(`${cfg.supabaseUrl}/functions/v1/crear-usuario`, {
+        method:'POST',
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${session.access_token}`, 'Content-Type':'application/json' },
+        body: JSON.stringify({ email, password: pass })
+      });
+      const payload = await res.json().catch(()=>({}));
+      if(!res.ok || payload.error) throw new Error(payload.error || ('error '+res.status));
+      status.textContent = '✓ Usuario creado: ' + (payload.email||email);
+      document.getElementById('nu-email').value=''; document.getElementById('nu-pass').value='';
+      toast('Usuario administrador creado');
+    }catch(e){ status.textContent = 'No se pudo crear: ' + (e.message||e); }
+    finally{ btn.disabled=false; }
+  });
 
   /* ---------- sample seed data ---------- */
   let registrations = [];
@@ -787,6 +938,7 @@
       });
       if(!res.ok) return;
       const rows = await res.json(); cmsCurrent = (rows[0] && rows[0].content) || {};
+      window.__cmsLogo = cmsCurrent.img_logo || cmsCurrent.img_medallion || '';
       CMS_KEYS.forEach(k=>{ const el=document.getElementById('cms-'+k); if(el && cmsCurrent[k]!=null) el.value=cmsCurrent[k]; });
       CMS_IMG_KEYS.forEach(k=> setPreview(k, cmsCurrent[k]));
     }catch(_){}
@@ -846,6 +998,7 @@
   renderTable();
   renderStats();
   cmsLoad();
+  pricingLoad();
 </script>
 <script src="admin-system.js"></script>
 </body>
