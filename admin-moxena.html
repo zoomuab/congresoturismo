@@ -611,8 +611,46 @@
   </div>
 </div>
 
+<!-- Modal: confirmación (estilo del sitio) -->
+<div class="modal-overlay" id="confirm-overlay">
+  <div class="modal-card" style="width:min(440px,100%); text-align:center;">
+    <div id="confirm-icon" style="width:54px;height:54px;border-radius:50%;background:rgba(162,67,42,.12);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#A2432A" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg>
+    </div>
+    <h3 id="confirm-title" style="margin:0 0 6px;">¿Confirmar?</h3>
+    <p class="modal-sub" id="confirm-msg" style="margin:0 0 4px;">Esta acción no se puede deshacer.</p>
+    <div class="modal-actions" style="justify-content:center; margin-top:22px;">
+      <button class="btn-ghost-admin" id="confirm-no" type="button">Cancelar</button>
+      <button class="btn-primary" id="confirm-yes" type="button" style="background:var(--brick);">Sí, eliminar</button>
+    </div>
+  </div>
+</div>
+
 <script src="moxena-config.js"></script>
 <script>
+  /* ---------- diálogo de confirmación con estilo del sitio ---------- */
+  (function(){
+    const ov = document.getElementById('confirm-overlay');
+    const titleEl = document.getElementById('confirm-title');
+    const msgEl = document.getElementById('confirm-msg');
+    const yes = document.getElementById('confirm-yes');
+    const no = document.getElementById('confirm-no');
+    let resolver = null;
+    function close(val){ ov.classList.remove('show'); if(resolver){ const r=resolver; resolver=null; r(val); } }
+    yes.addEventListener('click', ()=>close(true));
+    no.addEventListener('click', ()=>close(false));
+    ov.addEventListener('click', (e)=>{ if(e.target===ov) close(false); });
+    document.addEventListener('keydown', (e)=>{ if(ov.classList.contains('show') && e.key==='Escape') close(false); });
+    window.moxenaConfirm = function(opts){
+      opts = opts || {};
+      titleEl.textContent = opts.title || '¿Estás seguro?';
+      msgEl.textContent = opts.message || 'Esta acción no se puede deshacer.';
+      yes.textContent = opts.confirmText || 'Sí, continuar';
+      ov.classList.add('show');
+      return new Promise((res)=>{ resolver = res; });
+    };
+  })();
+
   /* ---------- navigation ---------- */
   const views = ['dashboard','inscripciones','precios','misiones','reporte','contenido','configuracion'];
   function showView(v){
@@ -1049,16 +1087,18 @@
     if(!token){ status.textContent='Inicia sesión como administrador para subir imágenes.'; return; }
     if(file.size > 5*1024*1024){ status.textContent='La imagen supera 5 MB. Usa una más liviana.'; return; }
     const ext = (file.name.split('.').pop()||'png').toLowerCase().replace(/[^a-z0-9]/g,'') || 'png';
-    const path = `${key}-${Date.now()}.${ext}`;
     status.textContent='Subiendo imagen…';
     try{
-      const up = await fetch(`${cfg.supabaseUrl}/storage/v1/object/sitio/${path}`, {
+      // Se sube a través de una Edge Function que escribe con service_role,
+      // así evitamos por completo los problemas de permisos (RLS) del navegador.
+      const up = await fetch(`${cfg.supabaseUrl}/functions/v1/subir-imagen`, {
         method:'POST',
-        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${token}`, 'Content-Type':file.type||'application/octet-stream', 'x-upsert':'true' },
+        headers:{ apikey:cfg.supabasePublishableKey, Authorization:`Bearer ${token}`, 'Content-Type':file.type||'application/octet-stream', 'x-file-ext':ext, 'x-image-key':key },
         body:file
       });
-      if(!up.ok) throw new Error(await up.text());
-      const publicUrl = `${cfg.supabaseUrl}/storage/v1/object/public/sitio/${path}`;
+      const payload = await up.json().catch(()=>({}));
+      if(!up.ok || payload.error) throw new Error(payload.error || ('error '+up.status));
+      const publicUrl = payload.url;
       cmsCurrent[key] = publicUrl;
       await cmsPersist();
       setPreview(key, publicUrl);

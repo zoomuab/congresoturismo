@@ -227,12 +227,22 @@
   document.getElementById('reg-tbody').addEventListener('click', async (event) => {
     const button = event.target.closest('button');
     if (!button) return;
-    if (button.dataset.action === 'delete') {
+    if (button.dataset.action === 'delete' && button.dataset.confirmed !== '1') {
+      // Se cancela este clic y se muestra un diálogo con el estilo del sitio.
+      // Si el usuario confirma, se vuelve a lanzar el clic ya autorizado.
+      event.stopImmediatePropagation();
+      event.preventDefault();
       const nombre = button.closest('tr')?.children?.[1]?.textContent?.trim() || 'esta inscripción';
-      if (!window.confirm('¿Eliminar a ' + nombre + '?\n\nEsta acción no se puede deshacer.')) {
-        event.stopImmediatePropagation();
-        return;
-      }
+      const ask = window.moxenaConfirm
+        ? window.moxenaConfirm({ title: 'Eliminar inscripción', message: '¿Eliminar a ' + nombre + '? Esta acción no se puede deshacer.', confirmText: 'Sí, eliminar' })
+        : Promise.resolve(window.confirm('¿Eliminar a ' + nombre + '?'));
+      ask.then((ok) => {
+        if (!ok) return;
+        button.dataset.confirmed = '1';
+        button.click();
+        delete button.dataset.confirmed;
+      });
+      return;
     }
     setTimeout(async () => {
       writeLocal();
@@ -253,6 +263,22 @@
               certificate_hours: record.certificateHours
             })
           });
+          // Al emitir un certificado, se intenta enviar por correo al participante.
+          if (action === 'cert-emit' && record.certificateIssued && record.email) {
+            try {
+              const token = window.moxenaFreshToken ? await window.moxenaFreshToken() : null;
+              if (token) {
+                const r = await fetch(`${cfg.supabaseUrl}/functions/v1/enviar-certificado`, {
+                  method: 'POST',
+                  headers: { apikey: cfg.supabasePublishableKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ code: record.code })
+                });
+                const p = await r.json().catch(() => ({}));
+                if (p.sent) toast('Certificado emitido y enviado a ' + record.email);
+                else if (p.skipped) toast('Certificado emitido (correo no enviado: ' + (p.reason || 'sin configurar') + ')');
+              }
+            } catch (_) { /* el certificado ya quedó emitido aunque falle el correo */ }
+          }
         } else if (record) {
           await request(`${table}?code=eq.${encodeURIComponent(record.code)}`, {
             method: 'PATCH',
