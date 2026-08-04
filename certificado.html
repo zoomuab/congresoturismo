@@ -40,12 +40,12 @@
     font-family:var(--script); color:#7C2E1B; line-height:1; z-index:2;
     font-size:clamp(1.5rem, 4.6vw, 3.6rem); white-space:nowrap;
   }
-  /* Código de verificación — pie */
+  /* Código de verificación — por defecto, esquina inferior derecha, discreto */
   .cert-code{
-    position:absolute; top:2.4%; right:3%; white-space:nowrap;
-    background:rgba(255,253,247,.92); border:1px solid rgba(201,151,31,.55); border-radius:100px;
-    padding:3px 14px; font-family:var(--sans); font-size:clamp(.42rem,.95vw,.7rem); color:#3f3320;
-    letter-spacing:.03em; z-index:3; box-shadow:0 2px 8px rgba(0,0,0,.12);
+    position:absolute; bottom:3.4%; right:4%; top:auto; white-space:nowrap;
+    background:rgba(255,253,247,.9); border:1px solid rgba(201,151,31,.5); border-radius:100px;
+    padding:2px 12px; font-family:var(--sans); font-size:clamp(.4rem,.85vw,.62rem); color:#3f3320;
+    letter-spacing:.02em; z-index:3; box-shadow:0 2px 6px rgba(0,0,0,.1);
   }
   .cert-code b{ color:#7C2E1B; }
 
@@ -119,7 +119,12 @@
         var nameEl = document.getElementById('c-name');
         if(c.cert_name_top){ nameEl.style.top = parseFloat(c.cert_name_top) + '%'; }
         if(c.cert_name_color){ nameEl.style.color = c.cert_name_color; }
-        if(c.cert_code_top){ var cc = document.querySelector('.cert-code'); cc.style.top = parseFloat(c.cert_code_top) + '%'; cc.style.bottom = 'auto'; }
+        var cc = document.querySelector('.cert-code');
+        if(c.cert_code_top){ cc.style.top = parseFloat(c.cert_code_top) + '%'; cc.style.bottom = 'auto'; }
+        if(c.cert_code_bottom){ cc.style.bottom = parseFloat(c.cert_code_bottom) + '%'; cc.style.top = 'auto'; }
+        if(c.cert_code_right){ cc.style.right = parseFloat(c.cert_code_right) + '%'; cc.style.left = 'auto'; }
+        if(c.cert_code_left){ cc.style.left = parseFloat(c.cert_code_left) + '%'; cc.style.right = 'auto'; }
+        if(c.cert_code_size){ cc.style.fontSize = parseFloat(c.cert_code_size) + '%'; }
       })
       .catch(function(){ document.getElementById('cert-bg').src = DEFAULT_TEMPLATE; });
 
